@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About PDF Maker – Free Online PDF Tools</title>
+  <meta name="description" content="Learn about PDF Maker — a free all-in-one PDF tool that runs entirely in your browser. No uploads, no watermarks, no limits."/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#0a0a0f;--bg2:#111118;--bg3:#1a1a24;--border:#2a2a3a;--accent:#6c63ff;--accent2:#ff6584;--text:#f0f0f8;--muted:#888899;--success:#3ecf8e;--card:#14141e;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:100;}
+    .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--text);text-decoration:none;}
+    .logo span{color:var(--accent);}
+    .nav-btn{background:var(--accent);color:#fff;padding:.5rem 1.2rem;border-radius:8px;font-size:.9rem;text-decoration:none;font-weight:500;}
+    .hero{text-align:center;padding:5rem 1.5rem 3rem;background:radial-gradient(ellipse at 50% 0%,rgba(108,99,255,.15) 0%,transparent 60%);}
+    .hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.15;margin-bottom:1.2rem;}
+    .hero h1 span{color:var(--accent);}
+    .hero p{color:var(--muted);font-size:1.05rem;max-width:540px;margin:0 auto;line-height:1.7;}
+    .container{max-width:800px;margin:0 auto;padding:3rem 1.5rem;}
+    .mission-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.5rem;margin-bottom:2rem;}
+    .mission-card h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:1rem;}
+    .mission-card h2 span{color:var(--accent);}
+    .mission-card p{color:var(--muted);line-height:1.8;font-size:.95rem;margin-bottom:1rem;}
+    .values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:2rem 0;}
+    .value-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.4rem;}
+    .value-icon{font-size:1.8rem;margin-bottom:.8rem;}
+    .value-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:.4rem;}
+    .value-desc{color:var(--muted);font-size:.82rem;line-height:1.6;}
+    .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin:2rem 0;}
+    .stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.4rem;text-align:center;}
+    .stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--accent);}
+    .stat-label{color:var(--muted);font-size:.8rem;margin-top:.3rem;}
+    .tools-list{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;margin-bottom:2rem;}
+    .tools-list h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:1.2rem;}
+    .tools-grid-about{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.6rem;}
+    .tool-link{display:flex;align-items:center;gap:.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;text-decoration:none;color:var(--text);font-size:.85rem;font-weight:500;transition:all .2s;}
+    .tool-link:hover{border-color:var(--accent);color:var(--accent);}
+    .cta-box{background:linear-gradient(135deg,rgba(108,99,255,.2),rgba(255,101,132,.1));border:1px solid rgba(108,99,255,.3);border-radius:20px;padding:2.5rem;text-align:center;margin-bottom:2rem;}
+    .cta-box h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;margin-bottom:.8rem;}
+    .cta-box p{color:var(--muted);margin-bottom:1.5rem;line-height:1.7;}
+    .cta-btn{display:inline-block;background:var(--accent);color:#fff;padding:.9rem 2rem;border-radius:12px;text-decoration:none;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;transition:all .2s;}
+    .cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(108,99,255,.4);}
+    footer{border-top:1px solid var(--border);padding:2rem;text-align:center;color:var(--muted);font-size:.82rem;}
+    footer a{color:var(--muted);text-decoration:none;margin:0 .8rem;}
+    footer a:hover{color:var(--text);}
+    @media(max-width:600px){nav{padding:1rem;}.hero{padding:3rem 1rem 2rem;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">PDF<span>Maker</span></a>
+  <a href="index.html" class="nav-btn">All Tools →</a>
+</nav>
+
+<section class="hero">
+  <h1>About <span>PDF Maker</span></h1>
+  <p>A free all-in-one PDF toolkit that respects your privacy. No uploads, no watermarks, no limits — ever.</p>
+</section>
+
+<div class="container">
+
+  <!-- MISSION -->
+  <div class="mission-card">
+    <h2>Our <span>Mission</span></h2>
+    <p>PDF Maker was built out of frustration with existing PDF tools. Every free tool either limits you to 2 tasks per day, slaps a watermark on your documents, requires you to upload sensitive files to a remote server, or eventually asks you to pay.</p>
+    <p>We believe basic PDF tools should be free, unlimited, and private — always. That's why every single tool on PDF Maker runs entirely inside your browser. Your files never leave your device. Not even for a second.</p>
+    <p>Our revenue comes from non-intrusive Google AdSense advertising, which lets us keep the tools completely free for everyone without compromising your privacy or your documents.</p>
+  </div>
+
+  <!-- VALUES -->
+  <div class="values-grid">
+    <div class="value-item">
+      <div class="value-icon">🔒</div>
+      <div class="value-title">Privacy First</div>
+      <div class="value-desc">Every tool processes files locally in your browser. We have zero access to your documents.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon">♾️</div>
+      <div class="value-title">No Limits</div>
+      <div class="value-desc">No daily task limits, no file size caps, no account required. Use as much as you need.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon">🚫</div>
+      <div class="value-title">No Watermarks</div>
+      <div class="value-desc">Your output files are clean and professional. No PDF Maker branding ever added.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon">⚡</div>
+      <div class="value-title">Fast & Simple</div>
+      <div class="value-desc">No waiting for uploads. Everything processes instantly on your own device.</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">10+</div><div class="stat-label">Free PDF Tools</div></div>
+    <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Files Uploaded to Servers</div></div>
+    <div class="stat-card"><div class="stat-num">100%</div><div class="stat-label">In-Browser Processing</div></div>
+    <div class="stat-card"><div class="stat-num">Free</div><div class="stat-label">Forever</div></div>
+  </div>
+
+  <!-- TOOLS LIST -->
+  <div class="tools-list">
+    <h2>All Available Tools</h2>
+    <div class="tools-grid-about">
+      <a href="jpg-to-pdf.html" class="tool-link">🖼️ Image to PDF</a>
+      <a href="compress-pdf.html" class="tool-link">🗜️ Compress PDF</a>
+      <a href="merge-pdf.html" class="tool-link">🔗 Merge PDF</a>
+      <a href="split-pdf.html" class="tool-link">✂️ Split PDF</a>
+      <a href="rotate-pdf.html" class="tool-link">🔄 Rotate PDF</a>
+      <a href="protect-pdf.html" class="tool-link">🔒 Protect PDF</a>
+      <a href="protect-pdf.html" class="tool-link">🔓 Unlock PDF</a>
+      <a href="pdf-to-image.html" class="tool-link">🖼️ PDF to Image</a>
+      <a href="code-to-pdf.html" class="tool-link">👨‍💻 Code to PDF</a>
+      <a href="ocr-pdf.html" class="tool-link">🔍 OCR to PDF</a>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <h2>Start Using PDF Maker</h2>
+    <p>All tools are free, instant, and private. No sign-up needed.</p>
+    <a href="index.html" class="cta-btn">Browse All Tools →</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 PDF Maker — Free PDF Tools</p>
+  <p style="margin-top:.8rem"><a href="index.html">All Tools</a><a href="about.html">About</a><a href="privacy.html">Privacy Policy</a></p>
+</footer>
+</body>
+</html>
