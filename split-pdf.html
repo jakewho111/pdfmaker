@@ -6,22 +6,23 @@
   <title>Split PDF Online Free – Extract PDF Pages | PDF Maker</title>
   <meta name="description" content="Split PDF files online for free. Extract specific pages or split by range. 100% in-browser, private, no uploads. No limits, no watermarks."/>
   <link rel="canonical" href="https://pdfmaker.com/split-pdf"/>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
   <style>
-    :root{--bg:#0a0a0f;--bg2:#111118;--bg3:#1a1a24;--border:#2a2a3a;--accent:#6c63ff;--accent2:#ff6584;--text:#f0f0f8;--muted:#888899;--success:#3ecf8e;--card:#14141e;}
+    :root{--bg:#050508;--bg2:#0d0d14;--bg3:#13131e;--border:#252535;--accent:#7c6dfa;--accent2:#fa6d8f;--text:#f0f0f8;--muted:#7070a0;--success:#4ade80;--card:#0f0f1a;}
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
-    nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:100;}
-    .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--text);text-decoration:none;}
-    .logo span{color:var(--accent);}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(124,109,250,.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(250,109,143,.06) 0%,transparent 50%);pointer-events:none;z-index:0;}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:rgba(5,5,8,.8);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100;}
+    .logo{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;color:var(--text);text-decoration:none;}
+    .logo span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
     .nav-links{display:flex;gap:1.5rem;}
     .nav-links a{color:var(--muted);text-decoration:none;font-size:.9rem;}
     .nav-links a:hover{color:var(--text);}
     .nav-btn{background:var(--accent);color:#fff;padding:.5rem 1.2rem;border-radius:8px;font-size:.9rem;text-decoration:none;font-weight:500;}
     .hero{text-align:center;padding:4rem 1.5rem 2rem;background:radial-gradient(ellipse at 50% 0%,rgba(108,99,255,.15) 0%,transparent 60%);}
     .tool-badge{display:inline-flex;background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.3);padding:.4rem 1rem;border-radius:999px;font-size:.8rem;color:var(--accent);margin-bottom:1.2rem;}
-    h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;margin-bottom:1rem;}
+    h1{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;margin-bottom:1rem;}
     h1 span{color:var(--accent);}
     .subtitle{color:var(--muted);font-size:1.05rem;max-width:520px;margin:0 auto 2rem;line-height:1.6;}
     .features-row{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:2.5rem;}
@@ -29,14 +30,14 @@
     .tool-card{max-width:700px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;}
     .card-header{background:var(--bg3);padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.8rem;}
     .card-header-icon{width:38px;height:38px;background:rgba(108,99,255,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
-    .card-header-text h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;}
+    .card-header-text h3{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;}
     .card-header-text p{color:var(--muted);font-size:.8rem;}
     .card-body{padding:2rem 1.5rem;}
     .dropzone{border:2px dashed var(--border);border-radius:14px;padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:all .25s;position:relative;}
     .dropzone:hover,.dropzone.drag-over{border-color:var(--accent);background:rgba(108,99,255,.05);}
     .dropzone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
     .drop-icon{font-size:2.5rem;margin-bottom:.8rem;}
-    .drop-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.3rem;}
+    .drop-title{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:.3rem;}
     .drop-sub{color:var(--muted);font-size:.85rem;}
     .drop-btn{margin-top:1rem;display:inline-block;background:var(--accent);color:#fff;padding:.6rem 1.5rem;border-radius:8px;font-size:.9rem;font-weight:500;pointer-events:none;}
     .file-info{display:none;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0;align-items:center;gap:1rem;}
@@ -46,14 +47,14 @@
     .file-meta{color:var(--muted);font-size:.8rem;margin-top:.2rem;}
     .split-modes{display:none;margin:1.5rem 0;}
     .split-modes.show{display:block;}
-    .modes-label{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;margin-bottom:.8rem;}
+    .modes-label{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.9rem;margin-bottom:.8rem;}
     .mode-tabs{display:flex;gap:.4rem;background:var(--bg2);border-radius:12px;padding:.3rem;flex-wrap:wrap;}
     .mode-tab{flex:1;min-width:80px;padding:.55rem .8rem;border-radius:9px;border:none;background:none;cursor:pointer;font-size:.82rem;font-weight:500;color:var(--muted);transition:all .2s;text-align:center;}
     .mode-tab.active{background:var(--accent);color:#fff;}
     .mode-panel{display:none;margin-top:1.2rem;}
     .mode-panel.show{display:block;}
     .range-label{font-size:.85rem;color:var(--muted);margin-bottom:.5rem;display:block;}
-    .range-input{width:100%;background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:.7rem 1rem;color:var(--text);font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;box-sizing:border-box;}
+    .range-input{width:100%;background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:.7rem 1rem;color:var(--text);font-size:.9rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .2s;box-sizing:border-box;}
     .range-input:focus{border-color:var(--accent);}
     .range-hint{font-size:.78rem;color:var(--muted);margin-top:.4rem;}
     .pages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:.5rem;max-height:250px;overflow-y:auto;}
@@ -78,19 +79,19 @@
     .result-file-name{font-size:.85rem;font-weight:500;}
     .result-file-meta{font-size:.75rem;color:var(--muted);}
     .dl-btn{background:var(--success);color:#fff;border:none;border-radius:8px;padding:.4rem .9rem;font-size:.8rem;font-weight:600;cursor:pointer;text-decoration:none;}
-    .action-btn{width:100%;padding:1rem;border-radius:12px;background:linear-gradient(135deg,var(--accent),#8b63ff);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.6rem;margin-top:1.2rem;}
+    .action-btn{width:100%;padding:1rem;border-radius:12px;background:linear-gradient(135deg,var(--accent),#8b63ff);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.6rem;margin-top:1.2rem;}
     .action-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 25px rgba(108,99,255,.4);}
     .action-btn:disabled{opacity:.5;cursor:not-allowed;}
     .ad-slot{max-width:700px;margin:2rem auto;background:var(--bg2);border:1px dashed var(--border);border-radius:12px;padding:1rem;text-align:center;color:var(--muted);font-size:.75rem;}
     .section{max-width:700px;margin:3rem auto;padding:0 1.5rem;}
-    .section h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:1.5rem;}
+    .section h2{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:1.5rem;}
     .how-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;}
     .how-step{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.2rem;}
-    .step-num{font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:var(--accent);opacity:.4;}
+    .step-num{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.8rem;color:var(--accent);opacity:.4;}
     .step-title{font-weight:600;font-size:.9rem;margin:.4rem 0 .3rem;}
     .step-desc{color:var(--muted);font-size:.8rem;line-height:1.5;}
     .faq{max-width:700px;margin:3rem auto 4rem;padding:0 1.5rem;}
-    .faq h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:1.5rem;}
+    .faq h2{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:1.5rem;}
     .faq-item{border:1px solid var(--border);border-radius:12px;margin-bottom:.8rem;overflow:hidden;}
     .faq-q{padding:1rem 1.2rem;cursor:pointer;font-weight:600;font-size:.9rem;display:flex;justify-content:space-between;align-items:center;}
     .faq-q:hover{background:var(--bg2);}
@@ -101,7 +102,9 @@
     footer{border-top:1px solid var(--border);padding:2rem;text-align:center;color:var(--muted);font-size:.82rem;}
     footer a{color:var(--muted);text-decoration:none;margin:0 .8rem;}
     footer a:hover{color:var(--text);}
-    @media(max-width:600px){nav{padding:1rem;}.nav-links{display:none;}.card-body{padding:1.2rem 1rem;}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@media(max-width:600px){nav{padding:1rem;}.nav-links{display:none;}.card-body{padding:1.2rem 1rem;}}
   </style>
 </head>
 <body>
@@ -199,7 +202,7 @@
       </div>
 
       <div class="result-box" id="resultBox">
-        <p style="color:var(--success);font-weight:600;font-family:'Syne',sans-serif;margin-bottom:.8rem;">✅ Split complete!</p>
+        <p style="color:var(--success);font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:.8rem;">✅ Split complete!</p>
         <div class="result-files" id="resultFiles"></div>
       </div>
 

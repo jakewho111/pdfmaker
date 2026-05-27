@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OCR Scan to PDF – Make Scanned Documents Searchable | PDF Maker</title>
+  <meta name="description" content="Convert scanned documents and images to searchable PDF using OCR. Extract text from photos, screenshots and scanned files. 100% free, in-browser, no uploads."/>
+  <link rel="canonical" href="https://pdfmaker.com/ocr-pdf"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#050508;--bg2:#0d0d14;--bg3:#13131e;--bg4:#1a1a28;--border:#252535;--border2:#2e2e45;--accent:#7c6dfa;--accent2:#fa6d8f;--accent3:#6dfabd;--text:#f0efff;--muted:#7070a0;--success:#4ade80;--glow:rgba(124,109,250,.25);}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(124,109,250,.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(250,109,143,.06) 0%,transparent 50%);pointer-events:none;z-index:0;}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:rgba(5,5,8,.85);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100;}
+    .logo{font-weight:800;font-size:1.4rem;color:var(--text);text-decoration:none;}
+    .logo span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .nav-links{display:flex;gap:1.5rem;}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s;}
+    .nav-links a:hover{color:var(--text);}
+    .nav-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:.5rem 1.2rem;border-radius:10px;font-size:.88rem;text-decoration:none;font-weight:700;}
+    .hero{text-align:center;padding:5rem 1.5rem 3rem;position:relative;z-index:1;}
+    .tool-badge{display:inline-flex;background:rgba(124,109,250,.12);border:1px solid rgba(124,109,250,.25);padding:.4rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:600;color:var(--accent);margin-bottom:1.5rem;animation:fadeInDown .6s ease both;}
+    h1{font-weight:800;font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.1;margin-bottom:1rem;letter-spacing:-.03em;animation:fadeInUp .6s ease .1s both;}
+    .grad{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .subtitle{color:var(--muted);font-size:1rem;max-width:520px;margin:0 auto 2rem;line-height:1.7;animation:fadeInUp .6s ease .2s both;}
+    .feat-pills{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin-bottom:3rem;animation:fadeInUp .6s ease .3s both;}
+    .pill{background:var(--bg3);border:1px solid var(--border2);padding:.3rem .9rem;border-radius:999px;font-size:.78rem;color:var(--muted);font-weight:500;}
+    .tool-wrap{padding:0 1.5rem 3rem;position:relative;z-index:1;animation:fadeInUp .6s ease .4s both;}
+    .tool-card{max-width:740px;margin:0 auto;background:linear-gradient(135deg,rgba(15,15,26,.95),rgba(13,13,20,.95));border:1px solid var(--border2);border-radius:24px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.4);}
+    .card-header{background:linear-gradient(135deg,rgba(124,109,250,.12),rgba(250,109,143,.08));padding:1.4rem 1.8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;}
+    .card-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+    .card-title{font-weight:800;font-size:1.05rem;}
+    .card-sub{color:var(--muted);font-size:.8rem;margin-top:.15rem;}
+    .card-body{padding:2rem 1.8rem;}
+    /* TABS */
+    .mode-tabs{display:flex;background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:.3rem;margin-bottom:1.5rem;gap:.4rem;}
+    .mode-tab{flex:1;padding:.7rem 1rem;border-radius:11px;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.85rem;transition:all .25s;color:var(--muted);background:none;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+    .mode-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 15px var(--glow);}
+    /* DROPZONE */
+    .dropzone{border:2px dashed var(--border2);border-radius:18px;padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:all .3s;position:relative;background:rgba(124,109,250,.02);}
+    .dropzone:hover,.dropzone.drag-over{border-color:var(--accent);background:rgba(124,109,250,.06);}
+    .dropzone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .drop-emoji{font-size:2.8rem;margin-bottom:.7rem;display:block;animation:float 3s ease-in-out infinite;}
+    .drop-title{font-weight:800;font-size:1rem;margin-bottom:.3rem;}
+    .drop-sub{color:var(--muted);font-size:.82rem;margin-bottom:1rem;}
+    .drop-cta{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:.5rem 1.3rem;border-radius:10px;font-size:.85rem;font-weight:700;pointer-events:none;}
+    /* FILE LIST */
+    .file-list{display:none;flex-direction:column;gap:.5rem;margin:1rem 0;max-height:200px;overflow-y:auto;}
+    .file-list.show{display:flex;}
+    .file-item{display:flex;align-items:center;gap:.8rem;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:.7rem 1rem;animation:slideIn .2s ease both;}
+    .file-thumb{width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0;}
+    .file-info{flex:1;min-width:0;}
+    .file-name{font-size:.83rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .file-size{color:var(--muted);font-size:.72rem;margin-top:.1rem;}
+    .file-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:.3rem;border-radius:6px;transition:all .2s;flex-shrink:0;}
+    .file-remove:hover{color:var(--accent2);}
+    /* OPTIONS */
+    .options{display:none;background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:1.2rem;margin:1rem 0;}
+    .options.show{display:block;}
+    .opt-title{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.8rem;}
+    .opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+    .opt-group label{font-size:.72rem;color:var(--muted);font-weight:600;display:block;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em;}
+    .opt-select{width:100%;background:var(--bg4);border:1.5px solid var(--border2);border-radius:10px;padding:.6rem .8rem;color:var(--text);font-size:.85rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;cursor:pointer;transition:border-color .2s;}
+    .opt-select:focus{border-color:var(--accent);}
+    .opt-select option{background:var(--bg3);}
+    /* LOADING STATE */
+    .ocr-status{display:none;background:rgba(124,109,250,.06);border:1px solid rgba(124,109,250,.2);border-radius:14px;padding:1.4rem;margin:1rem 0;text-align:center;}
+    .ocr-status.show{display:block;}
+    .ocr-spinner{font-size:2rem;display:block;margin-bottom:.8rem;animation:spin 1s linear infinite;}
+    .ocr-msg{font-weight:600;font-size:.9rem;margin-bottom:.3rem;}
+    .ocr-sub{color:var(--muted);font-size:.8rem;}
+    /* PROGRESS */
+    .progress-wrap{display:none;margin:1rem 0;}
+    .progress-wrap.show{display:block;}
+    .progress-top{display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.8rem;}
+    .progress-label{color:var(--muted);}
+    .progress-pct{color:var(--accent);font-weight:700;}
+    .progress-track{height:6px;background:var(--bg4);border-radius:99px;overflow:hidden;}
+    .progress-bar{height:100%;border-radius:99px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s cubic-bezier(.4,0,.2,1);}
+    /* RESULT */
+    .result-box{display:none;margin:1rem 0;border-radius:16px;padding:1.4rem 1.5rem;animation:fadeInUp .3s ease both;}
+    .result-box.show{display:block;}
+    .result-box.success{background:linear-gradient(135deg,rgba(74,222,128,.08),rgba(124,109,250,.05));border:1px solid rgba(74,222,128,.2);}
+    .result-success{color:var(--success);font-weight:700;margin-bottom:.8rem;}
+    /* TEXT RESULT */
+    .extracted-text{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1rem;margin:1rem 0;max-height:280px;overflow-y:auto;font-size:.85rem;line-height:1.7;color:var(--text);white-space:pre-wrap;word-break:break-word;}
+    .text-actions{display:flex;gap:.6rem;margin-top:.8rem;flex-wrap:wrap;}
+    .btn-action{padding:.5rem 1rem;border-radius:10px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;border:none;}
+    .btn-copy{background:rgba(124,109,250,.12);border:1px solid rgba(124,109,250,.25);color:var(--accent);}
+    .btn-copy:hover{background:rgba(124,109,250,.2);}
+    /* BUTTONS */
+    .btn-primary{width:100%;padding:1rem;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1rem;border:none;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.6rem;box-shadow:0 4px 20px var(--glow);margin-top:1rem;}
+    .btn-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 30px var(--glow);}
+    .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+    .btn-download{width:100%;padding:.9rem;border-radius:14px;background:linear-gradient(135deg,#1a3a2a,#1e4a35);border:1px solid rgba(74,222,128,.3);color:var(--success);font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.6rem;text-decoration:none;margin-top:.8rem;}
+    .btn-download:hover{transform:translateY(-1px);}
+    .tesseract-note{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2);border-radius:12px;padding:.8rem 1rem;font-size:.78rem;color:#fbbf24;line-height:1.6;margin:1rem 0;}
+    .ad-slot{max-width:740px;margin:2rem auto;background:var(--bg2);border:1px dashed var(--border);border-radius:14px;padding:1rem;text-align:center;color:var(--muted);font-size:.75rem;position:relative;z-index:1;}
+    .section{max-width:740px;margin:3rem auto;padding:0 1.5rem;position:relative;z-index:1;}
+    .section h2{font-weight:800;font-size:1.5rem;margin-bottom:1.5rem;}
+    .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;}
+    .step{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.4rem;transition:all .2s;}
+    .step:hover{border-color:var(--border2);transform:translateY(-2px);}
+    .step-n{font-weight:800;font-size:2rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:.5;}
+    .step-t{font-weight:700;font-size:.9rem;margin:.4rem 0 .3rem;}
+    .step-d{color:var(--muted);font-size:.8rem;line-height:1.6;}
+    .faq{max-width:740px;margin:3rem auto 5rem;padding:0 1.5rem;position:relative;z-index:1;}
+    .faq h2{font-weight:800;font-size:1.5rem;margin-bottom:1.5rem;}
+    .faq-item{border:1px solid var(--border);border-radius:14px;margin-bottom:.7rem;overflow:hidden;}
+    .faq-q{padding:1rem 1.2rem;cursor:pointer;font-weight:600;font-size:.88rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;}
+    .faq-q:hover{background:rgba(124,109,250,.04);}
+    .faq-icon{color:var(--accent);transition:transform .3s;flex-shrink:0;}
+    .faq-a{padding:0 1.2rem;max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),padding .3s;color:var(--muted);font-size:.85rem;line-height:1.7;}
+    .faq-item.open .faq-a{max-height:200px;padding:.6rem 1.2rem 1.2rem;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);}
+    footer{border-top:1px solid var(--border);padding:2.5rem 2rem;text-align:center;color:var(--muted);font-size:.82rem;position:relative;z-index:1;}
+    footer a{color:var(--muted);text-decoration:none;margin:0 .8rem;}
+    footer a:hover{color:var(--text);}
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    @keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    @media(max-width:640px){nav{padding:1rem;}.nav-links{display:none;}.card-body{padding:1.4rem 1.2rem;}.mode-tabs{flex-direction:column;}.opt-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">PDF<span>Maker</span></a>
+  <div class="nav-links"><a href="index.html">All Tools</a><a href="compress-pdf.html">Compress</a><a href="merge-pdf.html">Merge</a></div>
+  <a href="index.html" class="nav-btn">All Tools →</a>
+</nav>
+
+<section class="hero">
+  <div class="tool-badge">🔍 OCR — Optical Character Recognition</div>
+  <h1>Scan to <span class="grad">Searchable PDF</span></h1>
+  <p class="subtitle">Extract text from scanned documents, photos, and screenshots using OCR. Get a searchable PDF or copy the extracted text. 100% free and private.</p>
+  <div class="feat-pills">
+    <span class="pill">✓ JPG, PNG, WebP input</span>
+    <span class="pill">✓ Extract to searchable PDF</span>
+    <span class="pill">✓ Copy extracted text</span>
+    <span class="pill">✓ 60+ languages</span>
+    <span class="pill">✓ No uploads</span>
+  </div>
+</section>
+
+<div class="ad-slot"><p style="padding:.5rem 0">Advertisement</p></div>
+
+<div class="tool-wrap">
+  <div class="tool-card">
+    <div class="card-header">
+      <div class="card-icon">🔍</div>
+      <div><div class="card-title">OCR Scan to PDF</div><div class="card-sub">Extract text from images • Searchable PDF • Powered by Tesseract.js</div></div>
+    </div>
+    <div class="card-body">
+
+      <!-- MODE TABS -->
+      <div class="mode-tabs">
+        <button class="mode-tab active" data-mode="pdf">📄 Searchable PDF</button>
+        <button class="mode-tab" data-mode="text">📋 Extract Text Only</button>
+      </div>
+
+      <div class="tesseract-note">
+        ⚡ <strong>Powered by Tesseract.js</strong> — OCR runs entirely in your browser. The first scan may take 10–20 seconds to load the OCR engine (~10MB). Subsequent scans are instant. Your files never leave your device.
+      </div>
+
+      <!-- DROPZONE -->
+      <div class="dropzone" id="dropzone">
+        <input type="file" accept="image/*,.pdf" multiple id="fileInput"/>
+        <span class="drop-emoji">🔍</span>
+        <div class="drop-title">Drop images or scanned PDFs here</div>
+        <div class="drop-sub">Supports JPG, PNG, WebP — multiple files OK</div>
+        <span class="drop-cta">Choose Files</span>
+      </div>
+
+      <div class="file-list" id="fileList"></div>
+
+      <div class="options" id="optionsPanel">
+        <div class="opt-title">OCR Settings</div>
+        <div class="opt-grid">
+          <div class="opt-group">
+            <label>Language</label>
+            <select class="opt-select" id="ocrLang">
+              <option value="eng" selected>English</option>
+              <option value="spa">Spanish</option>
+              <option value="fra">French</option>
+              <option value="deu">German</option>
+              <option value="ita">Italian</option>
+              <option value="por">Portuguese</option>
+              <option value="rus">Russian</option>
+              <option value="chi_sim">Chinese (Simplified)</option>
+              <option value="chi_tra">Chinese (Traditional)</option>
+              <option value="jpn">Japanese</option>
+              <option value="kor">Korean</option>
+              <option value="ara">Arabic</option>
+              <option value="hin">Hindi</option>
+            </select>
+          </div>
+          <div class="opt-group">
+            <label>Page Orientation</label>
+            <select class="opt-select" id="ocrOrient">
+              <option value="auto" selected>Auto Detect</option>
+              <option value="portrait">Portrait</option>
+              <option value="landscape">Landscape</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="ocr-status" id="ocrStatus">
+        <span class="ocr-spinner" id="ocrSpinner">⚙️</span>
+        <div class="ocr-msg" id="ocrMsg">Loading OCR engine…</div>
+        <div class="ocr-sub" id="ocrSub">This may take 10–20 seconds on first run</div>
+      </div>
+
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-top"><span class="progress-label" id="progressLabel">Processing…</span><span class="progress-pct" id="progressPct">0%</span></div>
+        <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      </div>
+
+      <div class="result-box success" id="resultBox">
+        <div class="result-success" id="resultMsg">✅ OCR complete!</div>
+        <div class="extracted-text" id="extractedText" style="display:none"></div>
+        <div class="text-actions" id="textActions" style="display:none">
+          <button class="btn-action btn-copy" id="copyBtn">📋 Copy Text</button>
+        </div>
+        <a class="btn-download" id="downloadBtn" href="#" style="display:none">⬇ Download Searchable PDF</a>
+      </div>
+
+      <button class="btn-primary" id="ocrBtn" disabled>🔍 Run OCR</button>
+    </div>
+  </div>
+</div>
+
+<div class="ad-slot"><p style="padding:.5rem 0">Advertisement</p></div>
+
+<section class="section">
+  <h2>How it works</h2>
+  <div class="steps-grid">
+    <div class="step"><div class="step-n">01</div><div class="step-t">Upload Image</div><div class="step-d">Drop a scanned document, photo of text, or screenshot.</div></div>
+    <div class="step"><div class="step-n">02</div><div class="step-t">Choose Mode</div><div class="step-d">Get a searchable PDF or extract the raw text to copy.</div></div>
+    <div class="step"><div class="step-n">03</div><div class="step-t">Run OCR</div><div class="step-d">Tesseract.js reads the image and extracts all text.</div></div>
+    <div class="step"><div class="step-n">04</div><div class="step-t">Download</div><div class="step-d">Get your searchable PDF or copy the extracted text.</div></div>
+  </div>
+</section>
+
+<section class="faq">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-item"><div class="faq-q">What is OCR? <span class="faq-icon">+</span></div><div class="faq-a">OCR stands for Optical Character Recognition. It reads the text inside an image or scanned document and converts it into actual digital text that can be searched, copied, and edited.</div></div>
+  <div class="faq-item"><div class="faq-q">What types of files can I use? <span class="faq-icon">+</span></div><div class="faq-a">You can upload JPG, PNG, and WebP image files. For best results use clear, high-resolution images with good lighting and contrast.</div></div>
+  <div class="faq-item"><div class="faq-q">Are my files uploaded to a server? <span class="faq-icon">+</span></div><div class="faq-a">No. OCR runs entirely in your browser using Tesseract.js — a JavaScript port of the Tesseract OCR engine. Your files never leave your device.</div></div>
+  <div class="faq-item"><div class="faq-q">Why is the first scan slow? <span class="faq-icon">+</span></div><div class="faq-a">The first scan downloads the Tesseract OCR engine (~10MB) and language data files to your browser. After the first scan everything is cached and subsequent scans are much faster.</div></div>
+  <div class="faq-item"><div class="faq-q">How accurate is the OCR? <span class="faq-icon">+</span></div><div class="faq-a">Accuracy depends on image quality. Clear, high-resolution images with black text on white background can achieve 95%+ accuracy. Blurry, rotated, or low-contrast images will have lower accuracy.</div></div>
+</section>
+
+<footer>
+  <p style="font-weight:700;margin-bottom:.5rem">PDF<span style="background:linear-gradient(135deg,#7c6dfa,#fa6d8f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Maker</span></p>
+  <p style="margin-bottom:.8rem">Free online PDF tools — private, unlimited, no watermarks.</p>
+  <p><a href="index.html">All Tools</a><a href="about.html">About</a><a href="privacy.html">Privacy</a></p>
+</footer>
+
+<script>
+(function(){
+  var currentMode='pdf';
+  var files=[];
+  var dropzone=document.getElementById('dropzone');
+  var fileInput=document.getElementById('fileInput');
+  var fileList=document.getElementById('fileList');
+  var optionsPanel=document.getElementById('optionsPanel');
+  var ocrBtn=document.getElementById('ocrBtn');
+  var ocrStatus=document.getElementById('ocrStatus');
+  var progressWrap=document.getElementById('progressWrap');
+  var progressBar=document.getElementById('progressBar');
+  var progressPct=document.getElementById('progressPct');
+  var progressLabel=document.getElementById('progressLabel');
+  var resultBox=document.getElementById('resultBox');
+  var resultMsg=document.getElementById('resultMsg');
+  var extractedText=document.getElementById('extractedText');
+  var textActions=document.getElementById('textActions');
+  var downloadBtn=document.getElementById('downloadBtn');
+
+  function fmt(b){if(b<1024)return b+' B';if(b<1048576)return (b/1024).toFixed(1)+' KB';return (b/1048576).toFixed(2)+' MB';}
+  function prog(p,l){progressBar.style.width=p+'%';progressPct.textContent=p+'%';if(l)progressLabel.textContent=l;}
+
+  // Mode tabs
+  document.querySelectorAll('.mode-tab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      document.querySelectorAll('.mode-tab').forEach(function(t){t.classList.remove('active');});
+      tab.classList.add('active');
+      currentMode=tab.dataset.mode;
+    });
+  });
+
+  // File handling
+  function addFiles(newFiles){
+    Array.from(newFiles).forEach(function(f){
+      if(f.type.startsWith('image/')||f.name.toLowerCase().endsWith('.pdf')){
+        files.push({file:f,id:Date.now()+Math.random()});
+      }
+    });
+    renderFiles();
+  }
+
+  function renderFiles(){
+    fileList.innerHTML='';
+    if(!files.length){
+      fileList.classList.remove('show');
+      optionsPanel.classList.remove('show');
+      ocrBtn.disabled=true;
+      return;
+    }
+    fileList.classList.add('show');
+    optionsPanel.classList.add('show');
+    ocrBtn.disabled=false;
+    files.forEach(function(f){
+      var el=document.createElement('div');
+      el.className='file-item';
+      var isImg=f.file.type.startsWith('image/');
+      var thumbHtml=isImg?'<img class="file-thumb" src="'+URL.createObjectURL(f.file)+'"/>':'<span style="font-size:1.8rem;flex-shrink:0">📄</span>';
+      el.innerHTML=thumbHtml+'<div class="file-info"><div class="file-name">'+f.file.name+'</div><div class="file-size">'+fmt(f.file.size)+'</div></div><button class="file-remove" data-id="'+f.id+'">✕</button>';
+      el.querySelector('.file-remove').addEventListener('click',(function(id){return function(){files=files.filter(function(x){return x.id!=id;});renderFiles();};})(f.id));
+      fileList.appendChild(el);
+    });
+  }
+
+  dropzone.addEventListener('dragover',function(e){e.preventDefault();dropzone.classList.add('drag-over');});
+  dropzone.addEventListener('dragleave',function(){dropzone.classList.remove('drag-over');});
+  dropzone.addEventListener('drop',function(e){e.preventDefault();dropzone.classList.remove('drag-over');addFiles(e.dataTransfer.files);});
+  fileInput.addEventListener('change',function(){addFiles(fileInput.files);fileInput.value='';});
+
+  // Copy button
+  document.getElementById('copyBtn').addEventListener('click',function(){
+    navigator.clipboard.writeText(extractedText.textContent).then(function(){
+      document.getElementById('copyBtn').textContent='✅ Copied!';
+      setTimeout(function(){document.getElementById('copyBtn').textContent='📋 Copy Text';},2000);
+    });
+  });
+
+  // FAQ
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    item.querySelector('.faq-q').addEventListener('click',function(){item.classList.toggle('open');});
+  });
+
+  // Load Tesseract dynamically
+  var tesseractLoaded=false;
+  function loadTesseract(){
+    return new Promise(function(resolve,reject){
+      if(tesseractLoaded){resolve();return;}
+      var s=document.createElement('script');
+      s.src='https://unpkg.com/tesseract.js@5.0.4/dist/tesseract.min.js';
+      s.onload=function(){tesseractLoaded=true;resolve();};
+      s.onerror=reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  // Load pdf-lib dynamically
+  var pdflibLoaded=typeof PDFLib!=='undefined';
+  function loadPdfLib(){
+    return new Promise(function(resolve,reject){
+      if(pdflibLoaded){resolve();return;}
+      var s=document.createElement('script');
+      s.src='https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+      s.onload=function(){pdflibLoaded=true;resolve();};
+      s.onerror=reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  // OCR RUN
+  ocrBtn.addEventListener('click',async function(){
+    if(!files.length)return;
+    ocrBtn.disabled=true;
+    resultBox.classList.remove('show');
+    extractedText.style.display='none';
+    textActions.style.display='none';
+    downloadBtn.style.display='none';
+
+    // Show loading
+    ocrStatus.classList.add('show');
+    document.getElementById('ocrMsg').textContent='Loading OCR engine…';
+    document.getElementById('ocrSub').textContent='Downloading Tesseract (~10MB) — first time only';
+
+    try{
+      await loadTesseract();
+      if(currentMode==='pdf') await loadPdfLib();
+
+      ocrStatus.classList.remove('show');
+      progressWrap.classList.add('show');
+
+      var lang=document.getElementById('ocrLang').value;
+      var allText='';
+
+      // Create Tesseract worker
+      prog(5,'Initializing OCR…');
+      var worker=await Tesseract.createWorker(lang,1,{
+        logger:function(m){
+          if(m.status==='recognizing text'){
+            prog(Math.round(10+m.progress*70),'Recognizing text…');
+          }
+        }
+      });
+
+      var pdfDoc=null;
+      if(currentMode==='pdf'){
+        pdfDoc=await PDFLib.PDFDocument.create();
+      }
+
+      for(var i=0;i<files.length;i++){
+        prog(10+Math.round((i/files.length)*70),'Processing file '+(i+1)+' of '+files.length+'…');
+
+        var file=files[i].file;
+        var dataUrl=await new Promise(function(res,rej){
+          var reader=new FileReader();
+          reader.onload=function(e){res(e.target.result);};
+          reader.onerror=rej;
+          reader.readAsDataURL(file);
+        });
+
+        var result=await worker.recognize(dataUrl);
+        var text=result.data.text;
+        allText+=(i>0?'\n\n--- Page '+(i+1)+' ---\n\n':'')+text;
+
+        if(currentMode==='pdf'&&pdfDoc){
+          // Create page with image + text overlay
+          var img2=new Image();
+          await new Promise(function(res){img2.onload=res;img2.src=dataUrl;});
+          var canvas=document.createElement('canvas');
+          canvas.width=img2.naturalWidth;canvas.height=img2.naturalHeight;
+          canvas.getContext('2d').drawImage(img2,0,0);
+          var jpgB64=canvas.toDataURL('image/jpeg',0.9).split(',')[1];
+          var imgEmbed=await pdfDoc.embedJpg(jpgB64);
+          var pw=595.28,ph=841.89;
+          var scale=Math.min(pw/img2.naturalWidth,ph/img2.naturalHeight,1);
+          var iw=img2.naturalWidth*scale,ih=img2.naturalHeight*scale;
+          var page=pdfDoc.addPage([pw,ph]);
+          page.drawImage(imgEmbed,{x:(pw-iw)/2,y:(ph-ih)/2,width:iw,height:ih});
+          // Invisible text overlay for searchability
+          var rgb=PDFLib.rgb;
+          var lines2=text.split('\n');
+          var lineH2=ih/Math.max(lines2.length,1);
+          var fontSize2=Math.max(8,Math.min(12,lineH2*0.8));
+          var startY=(ph+ih)/2-fontSize2;
+          lines2.forEach(function(ln,li){
+            if(ln.trim()){
+              try{
+                page.drawText(ln,{
+                  x:(pw-iw)/2,
+                  y:startY-(li*lineH2),
+                  size:fontSize2,
+                  color:rgb(1,1,1),
+                  opacity:0.01
+                });
+              }catch(e){}
+            }
+          });
+        }
+      }
+
+      await worker.terminate();
+      prog(95,'Finalising…');
+
+      if(currentMode==='pdf'&&pdfDoc){
+        var bytes=await pdfDoc.save();
+        var blob=new Blob([bytes],{type:'application/pdf'});
+        downloadBtn.href=URL.createObjectURL(blob);
+        downloadBtn.download='scanned_searchable_pdfmaker.pdf';
+        downloadBtn.style.display='flex';
+        resultMsg.textContent='✅ Searchable PDF created! Text is now selectable and searchable.';
+      } else {
+        extractedText.textContent=allText||'(No text detected — try a clearer image)';
+        extractedText.style.display='block';
+        textActions.style.display='flex';
+        resultMsg.textContent='✅ Text extracted successfully from '+files.length+' file'+(files.length>1?'s':'')+'!';
+      }
+
+      prog(100,'Done!');
+      setTimeout(function(){progressWrap.classList.remove('show');resultBox.classList.add('show');ocrBtn.disabled=false;},400);
+
+    }catch(err){
+      ocrStatus.classList.remove('show');
+      progressWrap.classList.remove('show');
+      ocrBtn.disabled=false;
+      alert('OCR Error: '+err.message+'\n\nPlease try again. If the issue persists, try a different image format.');
+    }
+  });
+})();
+</script>
+</body>
+</html>

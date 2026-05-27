@@ -4,111 +4,227 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PDF Maker – Free Online PDF Tools | Convert, Compress, Merge & More</title>
-  <meta name="description" content="PDF Maker is a free all-in-one PDF tool. Convert, compress, merge, split, rotate, protect and unlock PDFs online. 100% in-browser, private, no watermarks, no limits."/>
-  <meta name="keywords" content="pdf maker, free pdf tools, convert to pdf, compress pdf, merge pdf, split pdf, rotate pdf, protect pdf, online pdf editor"/>
+  <meta name="description" content="PDF Maker is a free all-in-one PDF tool. Convert, compress, merge, split, rotate, protect PDFs online. 100% in-browser, private, no watermarks, no limits."/>
+  <meta name="keywords" content="pdf maker, free pdf tools, convert to pdf, compress pdf, merge pdf, split pdf, rotate pdf, protect pdf"/>
   <link rel="canonical" href="https://pdfmaker.com/"/>
   <meta property="og:title" content="PDF Maker – Free Online PDF Tools"/>
   <meta property="og:description" content="All-in-one free PDF tools. Convert, compress, merge, split and more. No uploads, 100% private."/>
   <meta property="og:type" content="website"/>
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","name":"PDF Maker","url":"https://pdfmaker.com","description":"Free all-in-one online PDF tools","potentialAction":{"@type":"SearchAction","target":"https://pdfmaker.com/?q={search_term_string}","query-input":"required name=search_term_string"}}
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"PDF Maker","url":"https://pdfmaker.com","description":"Free all-in-one online PDF tools"}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
-    :root{--bg:#0a0a0f;--bg2:#111118;--bg3:#1a1a24;--border:#2a2a3a;--accent:#6c63ff;--accent2:#ff6584;--text:#f0f0f8;--muted:#888899;--success:#3ecf8e;--card:#14141e;}
+    :root{
+      --bg:#050508;--bg2:#0d0d14;--bg3:#13131e;--bg4:#1a1a28;
+      --border:#252535;--border2:#2e2e45;
+      --accent:#7c6dfa;--accent2:#fa6d8f;--accent3:#6dfabd;
+      --text:#f0efff;--muted:#7070a0;--success:#4ade80;
+      --glow:rgba(124,109,250,.25);--glow2:rgba(250,109,143,.2);
+    }
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+    /* ANIMATED BG ORBS */
+    .orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+    .orb1{width:600px;height:600px;background:rgba(124,109,250,.07);top:-200px;left:-200px;animation:drift1 20s ease-in-out infinite;}
+    .orb2{width:500px;height:500px;background:rgba(250,109,143,.05);bottom:-150px;right:-150px;animation:drift2 25s ease-in-out infinite;}
+    .orb3{width:300px;height:300px;background:rgba(109,250,189,.04);top:50%;left:50%;transform:translate(-50%,-50%);animation:drift3 15s ease-in-out infinite;}
 
     /* NAV */
-    nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);}
-    .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;color:var(--text);text-decoration:none;}
-    .logo span{color:var(--accent);}
-    .nav-right{display:flex;align-items:center;gap:1.5rem;}
-    .nav-links{display:flex;gap:1.5rem;}
-    .nav-links a{color:var(--muted);text-decoration:none;font-size:.9rem;transition:color .2s;}
-    .nav-links a:hover{color:var(--text);}
-    .search-box{display:flex;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:.4rem .9rem;gap:.5rem;}
-    .search-box input{background:none;border:none;color:var(--text);font-size:.85rem;outline:none;width:160px;}
-    .search-box input::placeholder{color:var(--muted);}
+    nav{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:1rem 2rem;border-bottom:1px solid var(--border);
+      background:rgba(5,5,8,.85);backdrop-filter:blur(24px);
+      position:sticky;top:0;z-index:100;
+    }
+    .logo{font-weight:800;font-size:1.5rem;color:var(--text);text-decoration:none;letter-spacing:-.03em;}
+    .logo span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .nav-center{display:flex;gap:2rem;}
+    .nav-center a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s;}
+    .nav-center a:hover{color:var(--text);}
+    .nav-right{display:flex;align-items:center;gap:1rem;}
+    .search-wrap{display:flex;align-items:center;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:.45rem 1rem;gap:.5rem;}
+    .search-wrap svg{color:var(--muted);flex-shrink:0;}
+    .search-wrap input{background:none;border:none;color:var(--text);font-size:.85rem;outline:none;width:150px;font-family:'Plus Jakarta Sans',sans-serif;}
+    .search-wrap input::placeholder{color:var(--muted);}
 
     /* HERO */
-    .hero{text-align:center;padding:5rem 1.5rem 3rem;background:radial-gradient(ellipse at 50% 0%,rgba(108,99,255,.18) 0%,transparent 65%);}
-    .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.3);padding:.4rem 1.1rem;border-radius:999px;font-size:.8rem;color:var(--accent);margin-bottom:1.5rem;}
-    .hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.5rem,6vw,4rem);line-height:1.1;margin-bottom:1.2rem;}
-    .hero h1 span{color:var(--accent);}
-    .hero p{color:var(--muted);font-size:1.1rem;max-width:560px;margin:0 auto 2.5rem;line-height:1.7;}
-    .hero-stats{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;margin-bottom:3rem;}
-    .stat{text-align:center;}
-    .stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:var(--text);}
-    .stat-label{color:var(--muted);font-size:.8rem;margin-top:.2rem;}
+    .hero{
+      text-align:center;padding:7rem 1.5rem 4rem;
+      position:relative;z-index:1;
+    }
+    .hero-badge{
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:rgba(124,109,250,.1);border:1px solid rgba(124,109,250,.2);
+      padding:.4rem 1.2rem;border-radius:999px;font-size:.78rem;font-weight:600;
+      color:var(--accent);margin-bottom:2rem;
+      animation:fadeInDown .7s ease both;
+    }
+    .hero h1{
+      font-weight:800;font-size:clamp(2.8rem,7vw,5rem);
+      line-height:1.05;letter-spacing:-.04em;
+      margin-bottom:1.5rem;
+      animation:fadeInUp .7s ease .1s both;
+    }
+    .hero h1 .line2{
+      background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,var(--accent3) 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      background-size:200% auto;animation:gradShift 4s ease infinite;
+    }
+    .hero-sub{
+      color:var(--muted);font-size:1.1rem;max-width:560px;
+      margin:0 auto 3rem;line-height:1.8;
+      animation:fadeInUp .7s ease .2s both;
+    }
+    .hero-actions{
+      display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;
+      margin-bottom:4rem;animation:fadeInUp .7s ease .3s both;
+    }
+    .btn-hero{
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;padding:.9rem 2rem;border-radius:14px;
+      text-decoration:none;font-weight:700;font-size:.95rem;
+      box-shadow:0 4px 30px var(--glow);transition:all .25s;
+    }
+    .btn-hero:hover{transform:translateY(-2px);box-shadow:0 8px 40px var(--glow);}
+    .btn-hero-ghost{
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:rgba(124,109,250,.08);border:1px solid rgba(124,109,250,.25);
+      color:var(--text);padding:.9rem 2rem;border-radius:14px;
+      text-decoration:none;font-weight:600;font-size:.95rem;transition:all .25s;
+    }
+    .btn-hero-ghost:hover{background:rgba(124,109,250,.15);border-color:var(--accent);}
 
-    /* TRUST BADGES */
-    .trust-row{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:1rem;}
-    .trust-item{display:flex;align-items:center;gap:.5rem;color:var(--muted);font-size:.85rem;}
-    .trust-item svg{color:var(--success);}
+    /* TRUST BAR */
+    .trust-bar{
+      display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;
+      animation:fadeInUp .7s ease .4s both;
+    }
+    .trust-item{display:flex;align-items:center;gap:.5rem;color:var(--muted);font-size:.82rem;font-weight:500;}
+    .trust-dot{width:6px;height:6px;background:var(--success);border-radius:50%;flex-shrink:0;}
 
-    /* AD SLOT */
-    .ad-slot{max-width:900px;margin:1.5rem auto;background:var(--bg2);border:1px dashed var(--border);border-radius:12px;padding:1rem;text-align:center;color:var(--muted);font-size:.75rem;}
+    /* AD */
+    .ad-slot{max-width:960px;margin:3rem auto;padding:0 1.5rem;position:relative;z-index:1;}
+    .ad-inner{background:var(--bg2);border:1px dashed var(--border);border-radius:14px;padding:1rem;text-align:center;color:var(--muted);font-size:.75rem;}
 
-    /* TOOLS SECTION */
-    .tools-section{max-width:1100px;margin:0 auto;padding:3rem 1.5rem;}
-    .section-header{display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem;}
-    .section-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;}
-    .section-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;}
-    .section-sub{color:var(--muted);font-size:.85rem;margin-top:.1rem;}
-    .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-bottom:3rem;}
+    /* TOOLS */
+    .tools-section{max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;position:relative;z-index:1;}
+    .section-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem;}
+    .section-chip{
+      display:flex;align-items:center;gap:.5rem;
+      background:rgba(124,109,250,.1);border:1px solid rgba(124,109,250,.2);
+      padding:.3rem .8rem;border-radius:999px;font-size:.75rem;font-weight:700;color:var(--accent);
+    }
+    .section-title{font-weight:800;font-size:1.3rem;letter-spacing:-.02em;}
+    .section-sub{color:var(--muted);font-size:.82rem;margin-top:.1rem;}
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.9rem;margin-bottom:3rem;}
 
     /* TOOL CARD */
-    .tool-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:1.4rem;text-decoration:none;color:var(--text);transition:all .25s;display:block;position:relative;overflow:hidden;}
-    .tool-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(108,99,255,.06),transparent);opacity:0;transition:opacity .25s;}
-    .tool-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 35px rgba(108,99,255,.2);}
-    .tool-card:hover::before{opacity:1;}
-    .tool-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1rem;}
-    .tool-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:.4rem;}
-    .tool-desc{color:var(--muted);font-size:.8rem;line-height:1.5;}
-    .tool-badge-tag{position:absolute;top:.8rem;right:.8rem;background:rgba(62,207,142,.15);border:1px solid rgba(62,207,142,.3);color:var(--success);font-size:.65rem;font-weight:700;padding:.2rem .5rem;border-radius:6px;}
-    .tool-badge-hot{background:rgba(255,101,132,.15);border-color:rgba(255,101,132,.3);color:var(--accent2);}
+    .tool-card{
+      background:var(--bg2);border:1.5px solid var(--border);
+      border-radius:18px;padding:1.4rem;
+      text-decoration:none;color:var(--text);
+      transition:all .25s;display:block;position:relative;overflow:hidden;
+    }
+    .tool-card::after{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(124,109,250,.06),transparent);
+      opacity:0;transition:opacity .25s;border-radius:18px;
+    }
+    .tool-card:hover{
+      border-color:rgba(124,109,250,.4);
+      transform:translateY(-4px);
+      box-shadow:0 12px 40px rgba(124,109,250,.15);
+    }
+    .tool-card:hover::after{opacity:1;}
+    .tool-icon{
+      width:46px;height:46px;border-radius:13px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.3rem;margin-bottom:1rem;
+      transition:transform .25s;
+    }
+    .tool-card:hover .tool-icon{transform:scale(1.1);}
+    .tool-name{font-weight:700;font-size:.93rem;margin-bottom:.35rem;letter-spacing:-.01em;}
+    .tool-desc{color:var(--muted);font-size:.78rem;line-height:1.55;}
+    .tool-tag{
+      position:absolute;top:.8rem;right:.8rem;
+      font-size:.62rem;font-weight:700;
+      padding:.2rem .5rem;border-radius:6px;
+    }
+    .tag-hot{background:rgba(250,109,143,.15);border:1px solid rgba(250,109,143,.25);color:var(--accent2);}
+    .tag-new{background:rgba(109,250,189,.1);border:1px solid rgba(109,250,189,.2);color:var(--accent3);}
+    .tag-soon{background:rgba(112,112,160,.1);border:1px solid rgba(112,112,160,.2);color:var(--muted);}
 
     /* FEATURES */
-    .features{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:4rem 1.5rem;margin:2rem 0;}
+    .features{
+      background:linear-gradient(135deg,rgba(124,109,250,.06),rgba(250,109,143,.04));
+      border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+      padding:5rem 1.5rem;position:relative;z-index:1;
+    }
     .features-inner{max-width:1000px;margin:0 auto;text-align:center;}
-    .features h2{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;margin-bottom:.8rem;}
-    .features p{color:var(--muted);max-width:500px;margin:0 auto 3rem;line-height:1.7;}
-    .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;text-align:left;}
-    .feature-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.4rem;}
-    .feature-icon{font-size:1.8rem;margin-bottom:.8rem;}
-    .feature-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:.4rem;}
-    .feature-desc{color:var(--muted);font-size:.82rem;line-height:1.6;}
+    .features h2{font-weight:800;font-size:2.2rem;margin-bottom:.8rem;letter-spacing:-.03em;}
+    .features p{color:var(--muted);max-width:480px;margin:0 auto 3.5rem;line-height:1.8;}
+    .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;text-align:left;}
+    .feat-card{
+      background:var(--bg2);border:1px solid var(--border);
+      border-radius:18px;padding:1.6rem;transition:all .2s;
+    }
+    .feat-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+    .feat-emoji{font-size:2rem;margin-bottom:.8rem;display:block;}
+    .feat-title{font-weight:700;font-size:.95rem;margin-bottom:.4rem;}
+    .feat-desc{color:var(--muted);font-size:.82rem;line-height:1.65;}
 
-    /* SEO TEXT */
-    .seo-section{max-width:800px;margin:3rem auto;padding:0 1.5rem;}
-    .seo-section h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;margin-bottom:1rem;}
-    .seo-section p{color:var(--muted);line-height:1.8;font-size:.92rem;margin-bottom:1rem;}
+    /* SEO */
+    .seo{max-width:800px;margin:4rem auto;padding:0 1.5rem;position:relative;z-index:1;}
+    .seo h2{font-weight:800;font-size:1.6rem;margin-bottom:1rem;letter-spacing:-.02em;}
+    .seo p{color:var(--muted);line-height:1.85;font-size:.92rem;margin-bottom:1rem;}
 
-    footer{border-top:1px solid var(--border);padding:3rem 2rem;text-align:center;}
-    .footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:.5rem;}
-    .footer-logo span{color:var(--accent);}
-    .footer-desc{color:var(--muted);font-size:.85rem;margin-bottom:1.5rem;}
-    .footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:1.5rem;margin-bottom:1.5rem;}
-    .footer-links a{color:var(--muted);text-decoration:none;font-size:.85rem;transition:color .2s;}
-    .footer-links a:hover{color:var(--text);}
-    .footer-copy{color:var(--muted);font-size:.78rem;}
+    /* FOOTER */
+    footer{border-top:1px solid var(--border);padding:3rem 2rem;position:relative;z-index:1;}
+    .footer-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;}
+    .footer-logo{font-weight:800;font-size:1.3rem;margin-bottom:.5rem;}
+    .footer-logo span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .footer-desc{color:var(--muted);font-size:.82rem;max-width:260px;line-height:1.7;}
+    .footer-links{display:flex;gap:2rem;flex-wrap:wrap;}
+    .footer-col h4{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.8rem;}
+    .footer-col a{display:block;color:var(--muted);text-decoration:none;font-size:.82rem;margin-bottom:.4rem;transition:color .2s;}
+    .footer-col a:hover{color:var(--text);}
+    .footer-copy{max-width:1000px;margin:2rem auto 0;padding-top:1.5rem;border-top:1px solid var(--border);color:var(--muted);font-size:.78rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;}
 
-    @media(max-width:768px){nav{padding:1rem;}.nav-links,.search-box{display:none;}.hero{padding:3rem 1rem 2rem;}.hero-stats{gap:1.5rem;}.tools-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}}
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,30px)}}
+    @keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,-40px)}}
+    @keyframes drift3{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-50%,-45%)}}
+    @keyframes gradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+    @media(max-width:768px){
+      nav{padding:1rem;}
+      .nav-center,.search-wrap{display:none;}
+      .hero{padding:4rem 1rem 3rem;}
+      .hero h1{font-size:2.5rem;}
+      .tools-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
+      .footer-inner{grid-template-columns:1fr;}
+      .footer-copy{flex-direction:column;}
+    }
   </style>
 </head>
 <body>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
 
 <nav>
   <a href="index.html" class="logo">PDF<span>Maker</span></a>
+  <div class="nav-center">
+    <a href="#convert">Convert</a>
+    <a href="#edit">Edit & Organize</a>
+    <a href="#developer">Developer</a>
+    <a href="about.html">About</a>
+  </div>
   <div class="nav-right">
-    <div class="nav-links">
-      <a href="#convert">Convert</a>
-      <a href="#edit">Edit</a>
-      <a href="#developer">Developer</a>
-      <a href="about.html">About</a>
-    </div>
-    <div class="search-box">
+    <div class="search-wrap">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" placeholder="Search tools…" id="searchInput"/>
     </div>
@@ -117,134 +233,152 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">✨ 100% Free — No Account Needed</div>
-  <h1>All-in-One <span>PDF Tools</span><br/>Online & Free</h1>
-  <p>Convert, compress, merge, split, rotate, protect and more. Every tool runs entirely in your browser — your files never leave your device.</p>
-  <div class="trust-row">
-    <div class="trust-item"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg> No file uploads</div>
-    <div class="trust-item"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg> No watermarks ever</div>
-    <div class="trust-item"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg> No daily limits</div>
-    <div class="trust-item"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg> 100% private</div>
+  <div class="hero-badge">✨ 100% Free — No Account Required</div>
+  <h1>
+    All-in-One<br>
+    <span class="line2">PDF Tools Online</span>
+  </h1>
+  <p class="hero-sub">Convert, compress, merge, split, rotate, protect and more. Every tool runs entirely in your browser — your files never leave your device.</p>
+  <div class="hero-actions">
+    <a href="#convert" class="btn-hero">🚀 Get Started Free</a>
+    <a href="about.html" class="btn-hero-ghost">Learn More →</a>
+  </div>
+  <div class="trust-bar">
+    <div class="trust-item"><div class="trust-dot"></div>No file uploads</div>
+    <div class="trust-item"><div class="trust-dot"></div>No watermarks ever</div>
+    <div class="trust-item"><div class="trust-dot"></div>No daily limits</div>
+    <div class="trust-item"><div class="trust-dot"></div>100% private</div>
+    <div class="trust-item"><div class="trust-dot"></div>Free forever</div>
   </div>
 </section>
 
 <!-- AD TOP -->
-<div class="ad-slot">
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <p style="padding:.5rem 0">Advertisement</p>
-</div>
+<div class="ad-slot"><div class="ad-inner"><p>Advertisement</p></div></div>
 
-<!-- CONVERT TOOLS -->
-<div class="tools-section" id="toolsContainer">
-  <div id="convert" class="section-header">
-    <div class="section-icon" style="background:rgba(108,99,255,.2)">🔄</div>
-    <div><div class="section-title">Convert to PDF</div><div class="section-sub">Turn any file into a PDF</div></div>
+<!-- TOOLS -->
+<div class="tools-section" id="allTools">
+
+  <!-- CONVERT -->
+  <div id="convert" class="section-head">
+    <div class="section-chip">🔄 Convert</div>
+    <div>
+      <div class="section-title">Convert to PDF</div>
+      <div class="section-sub">Turn any file into a PDF instantly</div>
+    </div>
   </div>
   <div class="tools-grid">
     <a href="jpg-to-pdf.html" class="tool-card">
-      <div class="tool-badge-tag tool-badge-hot">🔥 Popular</div>
-      <div class="tool-icon" style="background:rgba(255,101,132,.15)">🖼️</div>
+      <span class="tool-tag tag-hot">🔥 Popular</span>
+      <div class="tool-icon" style="background:rgba(250,109,143,.12)">🖼️</div>
       <div class="tool-name">Image to PDF</div>
-      <div class="tool-desc">Convert JPG, PNG, WebP images to a PDF document instantly.</div>
+      <div class="tool-desc">Convert JPG, PNG, WebP images to PDF. Custom page size and margins.</div>
     </a>
     <a href="word-to-pdf.html" class="tool-card">
-      <div class="tool-icon" style="background:rgba(37,99,235,.15)">📝</div>
+      <span class="tool-tag tag-soon">🚧 Soon</span>
+      <div class="tool-icon" style="background:rgba(37,99,235,.12)">📝</div>
       <div class="tool-name">Word to PDF</div>
       <div class="tool-desc">Convert .docx Word documents to PDF format.</div>
     </a>
     <a href="excel-to-pdf.html" class="tool-card">
-      <div class="tool-icon" style="background:rgba(22,163,74,.15)">📊</div>
+      <span class="tool-tag tag-soon">🚧 Soon</span>
+      <div class="tool-icon" style="background:rgba(22,163,74,.12)">📊</div>
       <div class="tool-name">Excel to PDF</div>
       <div class="tool-desc">Convert .xlsx Excel spreadsheets to PDF.</div>
     </a>
     <a href="ppt-to-pdf.html" class="tool-card">
-      <div class="tool-icon" style="background:rgba(234,88,12,.15)">📑</div>
+      <span class="tool-tag tag-soon">🚧 Soon</span>
+      <div class="tool-icon" style="background:rgba(234,88,12,.12)">📑</div>
       <div class="tool-name">PowerPoint to PDF</div>
       <div class="tool-desc">Convert .pptx presentations to PDF.</div>
     </a>
     <a href="html-to-pdf.html" class="tool-card">
-      <div class="tool-icon" style="background:rgba(108,99,255,.15)">🌐</div>
+      <span class="tool-tag tag-soon">🚧 Soon</span>
+      <div class="tool-icon" style="background:rgba(124,109,250,.12)">🌐</div>
       <div class="tool-name">HTML to PDF</div>
       <div class="tool-desc">Convert HTML files or web pages to PDF.</div>
     </a>
     <a href="markdown-to-pdf.html" class="tool-card">
-      <div class="tool-icon" style="background:rgba(15,118,110,.15)">📋</div>
+      <span class="tool-tag tag-soon">🚧 Soon</span>
+      <div class="tool-icon" style="background:rgba(15,118,110,.12)">📋</div>
       <div class="tool-name">Markdown to PDF</div>
       <div class="tool-desc">Convert .md Markdown files to formatted PDF.</div>
     </a>
   </div>
 
-  <!-- EDIT TOOLS -->
-  <div id="edit" class="section-header">
-    <div class="section-icon" style="background:rgba(62,207,142,.15)">✏️</div>
-    <div><div class="section-title">Edit & Organize</div><div class="section-sub">Manage your PDF files</div></div>
+  <!-- EDIT -->
+  <div id="edit" class="section-head">
+    <div class="section-chip">✏️ Edit</div>
+    <div>
+      <div class="section-title">Edit & Organize</div>
+      <div class="section-sub">Manage your PDF documents</div>
+    </div>
   </div>
   <div class="tools-grid">
     <a href="compress-pdf.html" class="tool-card">
-      <div class="tool-badge-tag tool-badge-hot">🔥 Popular</div>
-      <div class="tool-icon" style="background:rgba(108,99,255,.15)">🗜️</div>
+      <span class="tool-tag tag-hot">🔥 Popular</span>
+      <div class="tool-icon" style="background:rgba(124,109,250,.12)">🗜️</div>
       <div class="tool-name">Compress PDF</div>
       <div class="tool-desc">Reduce PDF file size without losing quality.</div>
     </a>
     <a href="merge-pdf.html" class="tool-card">
-      <div class="tool-badge-tag tool-badge-hot">🔥 Popular</div>
-      <div class="tool-icon" style="background:rgba(99,102,241,.15)">🔗</div>
+      <span class="tool-tag tag-hot">🔥 Popular</span>
+      <div class="tool-icon" style="background:rgba(99,102,241,.12)">🔗</div>
       <div class="tool-name">Merge PDF</div>
       <div class="tool-desc">Combine multiple PDF files into one document.</div>
     </a>
     <a href="split-pdf.html" class="tool-card">
-      <div class="tool-icon" style="background:rgba(245,158,11,.15)">✂️</div>
+      <div class="tool-icon" style="background:rgba(245,158,11,.12)">✂️</div>
       <div class="tool-name">Split PDF</div>
       <div class="tool-desc">Extract pages or split PDF into multiple files.</div>
     </a>
     <a href="rotate-pdf.html" class="tool-card">
-      <div class="tool-icon" style="background:rgba(16,185,129,.15)">🔄</div>
+      <div class="tool-icon" style="background:rgba(16,185,129,.12)">🔄</div>
       <div class="tool-name">Rotate PDF</div>
       <div class="tool-desc">Rotate individual pages or all pages at once.</div>
     </a>
     <a href="protect-pdf.html" class="tool-card">
-      <div class="tool-icon" style="background:rgba(239,68,68,.15)">🔒</div>
-      <div class="tool-name">Protect PDF</div>
-      <div class="tool-desc">Add password protection with AES-256 encryption.</div>
-    </a>
-    <a href="protect-pdf.html" class="tool-card">
-      <div class="tool-icon" style="background:rgba(234,179,8,.15)">🔓</div>
-      <div class="tool-name">Unlock PDF</div>
-      <div class="tool-desc">Remove password protection from a PDF you own.</div>
+      <div class="tool-icon" style="background:rgba(239,68,68,.12)">🔒</div>
+      <div class="tool-name">Protect & Unlock PDF</div>
+      <div class="tool-desc">Add AES-256 password protection or remove it.</div>
     </a>
     <a href="pdf-to-image.html" class="tool-card">
-      <div class="tool-badge-tag">✨ New</div>
-      <div class="tool-icon" style="background:rgba(168,85,247,.15)">🖼️</div>
+      <span class="tool-tag tag-soon">🚧 Soon</span>
+      <div class="tool-icon" style="background:rgba(168,85,247,.12)">🖼️</div>
       <div class="tool-name">PDF to Image</div>
       <div class="tool-desc">Convert PDF pages to JPG or PNG images.</div>
     </a>
     <a href="watermark-pdf.html" class="tool-card">
-      <div class="tool-icon" style="background:rgba(20,184,166,.15)">💧</div>
+      <span class="tool-tag tag-soon">🚧 Soon</span>
+      <div class="tool-icon" style="background:rgba(20,184,166,.12)">💧</div>
       <div class="tool-name">Watermark PDF</div>
       <div class="tool-desc">Add a text or image watermark to your PDF.</div>
     </a>
   </div>
 
-  <!-- DEVELOPER TOOLS -->
-  <div id="developer" class="section-header">
-    <div class="section-icon" style="background:rgba(255,101,132,.15)">💻</div>
-    <div><div class="section-title">Developer Tools</div><div class="section-sub">Built for developers and technical users</div></div>
+  <!-- DEVELOPER -->
+  <div id="developer" class="section-head">
+    <div class="section-chip">💻 Dev</div>
+    <div>
+      <div class="section-title">Developer Tools</div>
+      <div class="section-sub">Built for developers and technical users</div>
+    </div>
   </div>
   <div class="tools-grid">
     <a href="code-to-pdf.html" class="tool-card">
-      <div class="tool-badge-tag">✨ Unique</div>
-      <div class="tool-icon" style="background:rgba(108,99,255,.15)">👨‍💻</div>
+      <span class="tool-tag tag-new">✨ Unique</span>
+      <div class="tool-icon" style="background:rgba(124,109,250,.12)">👨‍💻</div>
       <div class="tool-name">Code to PDF</div>
       <div class="tool-desc">Convert source code to syntax-highlighted PDF with line numbers.</div>
     </a>
     <a href="ocr-pdf.html" class="tool-card">
-      <div class="tool-badge-tag">✨ New</div>
-      <div class="tool-icon" style="background:rgba(16,185,129,.15)">🔍</div>
+      <span class="tool-tag tag-soon">🚧 Soon</span>
+      <div class="tool-icon" style="background:rgba(16,185,129,.12)">🔍</div>
       <div class="tool-name">OCR Scan to PDF</div>
-      <div class="tool-desc">Make scanned documents searchable using OCR technology.</div>
+      <div class="tool-desc">Make scanned documents searchable using OCR.</div>
     </a>
     <a href="markdown-to-pdf.html" class="tool-card">
-      <div class="tool-icon" style="background:rgba(245,158,11,.15)">📄</div>
+      <span class="tool-tag tag-soon">🚧 Soon</span>
+      <div class="tool-icon" style="background:rgba(245,158,11,.12)">📄</div>
       <div class="tool-name">Markdown to PDF</div>
       <div class="tool-desc">Render Markdown with proper formatting to PDF.</div>
     </a>
@@ -252,80 +386,109 @@
 </div>
 
 <!-- AD MIDDLE -->
-<div class="ad-slot" style="margin:0 auto 2rem;">
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <p style="padding:.5rem 0">Advertisement</p>
-</div>
+<div class="ad-slot"><div class="ad-inner"><p>Advertisement</p></div></div>
 
 <!-- FEATURES -->
-<div class="features">
+<section class="features">
   <div class="features-inner">
-    <h2>Why Choose PDF Maker?</h2>
-    <p>Built differently from every other PDF tool. Your privacy and convenience come first.</p>
-    <div class="features-grid">
-      <div class="feature-item">
-        <div class="feature-icon">🔒</div>
-        <div class="feature-title">100% Private</div>
-        <div class="feature-desc">Every tool runs entirely in your browser. Your files are never uploaded to any server — ever.</div>
+    <h2>Why PDF Maker?</h2>
+    <p>Built differently from every other PDF tool. Your privacy and freedom come first.</p>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <span class="feat-emoji">🔒</span>
+        <div class="feat-title">100% Private</div>
+        <div class="feat-desc">Every tool runs entirely in your browser. Your files are never uploaded to any server — ever.</div>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">♾️</div>
-        <div class="feature-title">Truly Unlimited</div>
-        <div class="feature-desc">No daily limits, no file size caps, no task restrictions. Use as much as you need, for free.</div>
+      <div class="feat-card">
+        <span class="feat-emoji">♾️</span>
+        <div class="feat-title">Truly Unlimited</div>
+        <div class="feat-desc">No daily limits, no file size caps, no task restrictions. Use as much as you need, completely free.</div>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">🚫</div>
-        <div class="feature-title">Zero Watermarks</div>
-        <div class="feature-desc">Your output files are clean. No branding, no stamps, no PDF Maker logos — ever.</div>
+      <div class="feat-card">
+        <span class="feat-emoji">🚫</span>
+        <div class="feat-title">Zero Watermarks</div>
+        <div class="feat-desc">Your output files are clean. No PDF Maker branding, no stamps, no logos — guaranteed.</div>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">⚡</div>
-        <div class="feature-title">Instant Results</div>
-        <div class="feature-desc">No waiting for uploads or server processing. Everything happens instantly on your device.</div>
+      <div class="feat-card">
+        <span class="feat-emoji">⚡</span>
+        <div class="feat-title">Instant Processing</div>
+        <div class="feat-desc">No waiting for uploads or server queues. Everything processes instantly on your own device.</div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- SEO TEXT -->
-<section class="seo-section">
+<section class="seo">
   <h2>Free PDF Tools for Everyone</h2>
   <p>PDF Maker is a free all-in-one PDF utility that works entirely in your browser. Whether you need to compress a large PDF to send by email, merge several documents into one, split a PDF to extract specific pages, or protect a sensitive file with a password — PDF Maker handles it all without requiring you to create an account or upload your files to a server.</p>
   <p>Unlike other PDF tools that limit free users to 2 tasks per day or add watermarks to your documents, PDF Maker is completely free with no restrictions. Students, professionals, developers, and businesses all use PDF Maker daily to handle their PDF needs quickly and privately.</p>
 </section>
 
 <!-- AD BOTTOM -->
-<div class="ad-slot">
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <p style="padding:.5rem 0">Advertisement</p>
-</div>
+<div class="ad-slot"><div class="ad-inner"><p>Advertisement</p></div></div>
 
 <footer>
-  <div class="footer-logo">PDF<span>Maker</span></div>
-  <div class="footer-desc">Free online PDF tools — private, unlimited, no watermarks.</div>
-  <div class="footer-links">
-    <a href="index.html">Home</a>
-    <a href="compress-pdf.html">Compress PDF</a>
-    <a href="merge-pdf.html">Merge PDF</a>
-    <a href="split-pdf.html">Split PDF</a>
-    <a href="rotate-pdf.html">Rotate PDF</a>
-    <a href="protect-pdf.html">Protect PDF</a>
-    <a href="jpg-to-pdf.html">Image to PDF</a>
-    <a href="about.html">About</a>
-    <a href="privacy.html">Privacy Policy</a>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">PDF<span>Maker</span></div>
+      <div class="footer-desc">Free online PDF tools — private, unlimited, and watermark-free. Always.</div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Convert</h4>
+        <a href="jpg-to-pdf.html">Image to PDF</a>
+        <a href="word-to-pdf.html">Word to PDF</a>
+        <a href="excel-to-pdf.html">Excel to PDF</a>
+        <a href="ppt-to-pdf.html">PowerPoint to PDF</a>
+      </div>
+      <div class="footer-col">
+        <h4>Edit</h4>
+        <a href="compress-pdf.html">Compress PDF</a>
+        <a href="merge-pdf.html">Merge PDF</a>
+        <a href="split-pdf.html">Split PDF</a>
+        <a href="rotate-pdf.html">Rotate PDF</a>
+        <a href="protect-pdf.html">Protect PDF</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+    </div>
   </div>
-  <div class="footer-copy">© 2025 PDF Maker — Free PDF Tools Online</div>
+  <div class="footer-copy">
+    <span>© 2025 PDF Maker — Free PDF Tools Online</span>
+    <span>Made with ❤️ for everyone</span>
+  </div>
 </footer>
 
 <script>
   // Search filter
-  const searchInput = document.getElementById('searchInput');
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.toLowerCase();
-    document.querySelectorAll('.tool-card').forEach(card => {
-      const text = card.textContent.toLowerCase();
-      card.style.display = text.includes(q) ? 'block' : 'none';
+  var searchInput=document.getElementById('searchInput');
+  searchInput.addEventListener('input',function(){
+    var q=searchInput.value.toLowerCase();
+    document.querySelectorAll('.tool-card').forEach(function(card){
+      var text=card.textContent.toLowerCase();
+      card.style.display=(!q||text.includes(q))?'block':'none';
     });
+  });
+
+  // Scroll animations
+  var observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.style.opacity='1';
+        entry.target.style.transform='translateY(0)';
+      }
+    });
+  },{threshold:.1});
+
+  document.querySelectorAll('.tool-card,.feat-card').forEach(function(el,i){
+    el.style.opacity='0';
+    el.style.transform='translateY(20px)';
+    el.style.transition='opacity .5s ease '+(i*0.05)+'s, transform .5s ease '+(i*0.05)+'s, border-color .25s, box-shadow .25s';
+    observer.observe(el);
   });
 </script>
 </body>

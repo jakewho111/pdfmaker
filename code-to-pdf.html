@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Code to PDF – Syntax Highlighted | PDF Maker</title>
+  <meta name="description" content="Convert source code to a beautiful syntax-highlighted PDF with line numbers. Supports 20+ languages. 100% in-browser, free, no uploads."/>
+  <link rel="canonical" href="https://pdfmaker.com/code-to-pdf"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <style>
+    :root{--bg:#050508;--bg2:#0d0d14;--bg3:#13131e;--bg4:#1a1a28;--border:#252535;--border2:#2e2e45;--accent:#7c6dfa;--accent2:#fa6d8f;--accent3:#6dfabd;--text:#f0efff;--muted:#7070a0;--success:#4ade80;--glow:rgba(124,109,250,.25);}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(124,109,250,.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(250,109,143,.06) 0%,transparent 50%);pointer-events:none;z-index:0;}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:rgba(5,5,8,.85);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100;}
+    .logo{font-weight:800;font-size:1.4rem;color:var(--text);text-decoration:none;}
+    .logo span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .nav-links{display:flex;gap:1.5rem;}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s;}
+    .nav-links a:hover{color:var(--text);}
+    .nav-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:.5rem 1.2rem;border-radius:10px;font-size:.88rem;text-decoration:none;font-weight:700;}
+    .hero{text-align:center;padding:5rem 1.5rem 3rem;position:relative;z-index:1;}
+    .tool-badge{display:inline-flex;background:rgba(124,109,250,.12);border:1px solid rgba(124,109,250,.25);padding:.4rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:600;color:var(--accent);margin-bottom:1.5rem;animation:fadeInDown .6s ease both;}
+    h1{font-weight:800;font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.1;margin-bottom:1rem;letter-spacing:-.03em;animation:fadeInUp .6s ease .1s both;}
+    .grad{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .subtitle{color:var(--muted);font-size:1rem;max-width:520px;margin:0 auto 2rem;line-height:1.7;animation:fadeInUp .6s ease .2s both;}
+    .feat-pills{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin-bottom:3rem;animation:fadeInUp .6s ease .3s both;}
+    .pill{background:var(--bg3);border:1px solid var(--border2);padding:.3rem .9rem;border-radius:999px;font-size:.78rem;color:var(--muted);font-weight:500;}
+    .tool-wrap{padding:0 1.5rem 3rem;position:relative;z-index:1;animation:fadeInUp .6s ease .4s both;}
+    .tool-card{max-width:860px;margin:0 auto;background:linear-gradient(135deg,rgba(15,15,26,.95),rgba(13,13,20,.95));border:1px solid var(--border2);border-radius:24px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.4);}
+    .card-header{background:linear-gradient(135deg,rgba(124,109,250,.12),rgba(250,109,143,.08));padding:1.4rem 1.8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;}
+    .card-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+    .card-title{font-weight:800;font-size:1.05rem;}
+    .card-sub{color:var(--muted);font-size:.8rem;margin-top:.15rem;}
+    .card-body{padding:2rem 1.8rem;}
+
+    /* CODE INPUT AREA */
+    .input-section{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.2rem;}
+    .field{width:100%;}
+    .field-label{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;display:block;}
+    .field-select{width:100%;background:var(--bg4);border:1.5px solid var(--border2);border-radius:10px;padding:.65rem .8rem;color:var(--text);font-size:.88rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;cursor:pointer;transition:border-color .2s;}
+    .field-select:focus{border-color:var(--accent);}
+    .field-select option{background:var(--bg3);}
+    .field-input{width:100%;background:var(--bg4);border:1.5px solid var(--border2);border-radius:10px;padding:.65rem .9rem;color:var(--text);font-size:.88rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .2s;box-sizing:border-box;}
+    .field-input:focus{border-color:var(--accent);}
+
+    /* CODE EDITOR */
+    .editor-wrap{position:relative;margin-bottom:1.2rem;}
+    .editor-header{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border2);border-bottom:none;border-radius:14px 14px 0 0;padding:.7rem 1rem;}
+    .editor-dots{display:flex;gap:.4rem;}
+    .dot{width:12px;height:12px;border-radius:50%;}
+    .dot1{background:#ff5f56;}
+    .dot2{background:#ffbd2e;}
+    .dot3{background:#27c93f;}
+    .editor-lang{font-size:.75rem;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+    .editor-actions{display:flex;gap:.5rem;}
+    .editor-btn{background:rgba(124,109,250,.1);border:1px solid rgba(124,109,250,.2);color:var(--accent);padding:.25rem .7rem;border-radius:7px;font-size:.72rem;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;}
+    .editor-btn:hover{background:rgba(124,109,250,.2);}
+    .code-textarea{
+      width:100%;min-height:320px;background:var(--bg2);
+      border:1px solid var(--border2);border-top:none;
+      border-radius:0 0 14px 14px;
+      padding:1rem 1rem 1rem 1.2rem;
+      color:#e2e0ff;font-family:'JetBrains Mono',monospace;
+      font-size:.88rem;line-height:1.7;resize:vertical;
+      outline:none;transition:border-color .2s;
+      tab-size:2;
+    }
+    .code-textarea:focus{border-color:var(--accent);}
+    .char-count{font-size:.72rem;color:var(--muted);margin-top:.4rem;text-align:right;}
+
+    /* SETTINGS */
+    .settings-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:1.2rem;}
+
+    /* THEME PICKER */
+    .theme-grid{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.2rem;}
+    .theme-btn{padding:.4rem .9rem;border-radius:9px;border:1.5px solid var(--border2);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'JetBrains Mono',monospace;}
+    .theme-btn.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(124,109,250,.25);}
+
+    /* PROGRESS */
+    .progress-wrap{display:none;margin:1rem 0;}
+    .progress-wrap.show{display:block;}
+    .progress-top{display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.8rem;}
+    .progress-label{color:var(--muted);}
+    .progress-pct{color:var(--accent);font-weight:700;}
+    .progress-track{height:6px;background:var(--bg4);border-radius:99px;overflow:hidden;}
+    .progress-bar{height:100%;border-radius:99px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s cubic-bezier(.4,0,.2,1);}
+    .result-box{display:none;margin:1rem 0;background:linear-gradient(135deg,rgba(74,222,128,.08),rgba(124,109,250,.05));border:1px solid rgba(74,222,128,.2);border-radius:16px;padding:1.2rem 1.5rem;}
+    .result-box.show{display:block;}
+    .result-success{color:var(--success);font-weight:700;margin-bottom:.8rem;}
+    .btn-primary{width:100%;padding:1rem;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1rem;border:none;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.6rem;box-shadow:0 4px 20px var(--glow);margin-top:1rem;}
+    .btn-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 30px var(--glow);}
+    .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+    .btn-download{width:100%;padding:.9rem;border-radius:14px;background:linear-gradient(135deg,#1a3a2a,#1e4a35);border:1px solid rgba(74,222,128,.3);color:var(--success);font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.6rem;text-decoration:none;}
+    .btn-download:hover{transform:translateY(-1px);}
+    .ad-slot{max-width:860px;margin:2rem auto;background:var(--bg2);border:1px dashed var(--border);border-radius:14px;padding:1rem;text-align:center;color:var(--muted);font-size:.75rem;position:relative;z-index:1;}
+    .section{max-width:860px;margin:3rem auto;padding:0 1.5rem;position:relative;z-index:1;}
+    .section h2{font-weight:800;font-size:1.5rem;margin-bottom:1.5rem;}
+    .lang-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.5rem;}
+    .lang-tag{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:.4rem .8rem;font-size:.78rem;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center;}
+    footer{border-top:1px solid var(--border);padding:2.5rem 2rem;text-align:center;color:var(--muted);font-size:.82rem;position:relative;z-index:1;}
+    footer a{color:var(--muted);text-decoration:none;margin:0 .8rem;}
+    footer a:hover{color:var(--text);}
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:700px){nav{padding:1rem;}.nav-links{display:none;}.card-body{padding:1.4rem 1.2rem;}.input-section{grid-template-columns:1fr;}.settings-grid{grid-template-columns:1fr 1fr;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">PDF<span>Maker</span></a>
+  <div class="nav-links"><a href="index.html">All Tools</a><a href="compress-pdf.html">Compress</a><a href="merge-pdf.html">Merge</a></div>
+  <a href="index.html" class="nav-btn">All Tools →</a>
+</nav>
+
+<section class="hero">
+  <div class="tool-badge">👨‍💻 Code to PDF Converter</div>
+  <h1>Convert Code to<br><span class="grad">Beautiful PDF</span></h1>
+  <p class="subtitle">Paste your source code and export it as a syntax-highlighted, line-numbered PDF. Perfect for documentation, reviews, and portfolios.</p>
+  <div class="feat-pills">
+    <span class="pill">✓ 20+ languages</span>
+    <span class="pill">✓ Syntax highlighting</span>
+    <span class="pill">✓ Line numbers</span>
+    <span class="pill">✓ Dark & light themes</span>
+    <span class="pill">✓ No uploads</span>
+  </div>
+</section>
+
+<div class="ad-slot"><p style="padding:.5rem 0">Advertisement</p></div>
+
+<div class="tool-wrap">
+  <div class="tool-card">
+    <div class="card-header">
+      <div class="card-icon">👨‍💻</div>
+      <div><div class="card-title">Code to PDF</div><div class="card-sub">Syntax highlighted • Line numbers • 20+ languages</div></div>
+    </div>
+    <div class="card-body">
+
+      <!-- SETTINGS ROW -->
+      <div class="input-section">
+        <div class="field">
+          <label class="field-label">Programming Language</label>
+          <select class="field-select" id="langSelect">
+            <option value="javascript">JavaScript</option>
+            <option value="typescript">TypeScript</option>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="cpp">C++</option>
+            <option value="c">C</option>
+            <option value="csharp">C#</option>
+            <option value="php">PHP</option>
+            <option value="ruby">Ruby</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+            <option value="swift">Swift</option>
+            <option value="kotlin">Kotlin</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="sql">SQL</option>
+            <option value="bash">Bash / Shell</option>
+            <option value="json">JSON</option>
+            <option value="xml">XML</option>
+            <option value="markdown">Markdown</option>
+            <option value="plain">Plain Text</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label">File / Document Title</label>
+          <input class="field-input" type="text" id="docTitle" placeholder="e.g. main.js, MyClass.java…"/>
+        </div>
+      </div>
+
+      <!-- THEME PICKER -->
+      <div style="margin-bottom:.6rem">
+        <span style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em">Color Theme</span>
+      </div>
+      <div class="theme-grid" id="themeGrid">
+        <button class="theme-btn active" data-theme="dark" style="background:#1e1e2e;color:#cdd6f4;border-color:#7c6dfa">● Dark</button>
+        <button class="theme-btn" data-theme="light" style="background:#ffffff;color:#24292e">● Light</button>
+        <button class="theme-btn" data-theme="monokai" style="background:#272822;color:#f8f8f2">● Monokai</button>
+        <button class="theme-btn" data-theme="github" style="background:#f6f8fa;color:#24292e">● GitHub</button>
+        <button class="theme-btn" data-theme="dracula" style="background:#282a36;color:#f8f8f2">● Dracula</button>
+        <button class="theme-btn" data-theme="nord" style="background:#2e3440;color:#d8dee9">● Nord</button>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="settings-grid">
+        <div class="field">
+          <label class="field-label">Font Size</label>
+          <select class="field-select" id="fontSize">
+            <option value="9">9pt (tiny)</option>
+            <option value="10">10pt (small)</option>
+            <option value="11" selected>11pt (default)</option>
+            <option value="12">12pt (large)</option>
+            <option value="14">14pt (xl)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label">Page Size</label>
+          <select class="field-select" id="pageSize">
+            <option value="A4" selected>A4</option>
+            <option value="Letter">Letter</option>
+            <option value="A3">A3 (wide)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label">Orientation</label>
+          <select class="field-select" id="orientation">
+            <option value="portrait" selected>Portrait</option>
+            <option value="landscape">Landscape</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label">Line Numbers</label>
+          <select class="field-select" id="lineNumbers">
+            <option value="yes" selected>Show</option>
+            <option value="no">Hide</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- EDITOR -->
+      <div class="editor-wrap">
+        <div class="editor-header">
+          <div class="editor-dots"><div class="dot dot1"></div><div class="dot dot2"></div><div class="dot dot3"></div></div>
+          <span class="editor-lang" id="editorLangLabel">javascript</span>
+          <div class="editor-actions">
+            <button class="editor-btn" id="clearBtn">Clear</button>
+            <button class="editor-btn" id="sampleBtn">Load Sample</button>
+          </div>
+        </div>
+        <textarea class="code-textarea" id="codeInput" spellcheck="false" placeholder="// Paste your code here…
+
+function greet(name) {
+  return 'Hello, ' + name + '!';
+}
+
+console.log(greet('World'));"></textarea>
+      </div>
+      <div class="char-count" id="charCount">0 lines • 0 characters</div>
+
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-top"><span class="progress-label" id="progressLabel">Generating PDF…</span><span class="progress-pct" id="progressPct">0%</span></div>
+        <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      </div>
+
+      <div class="result-box" id="resultBox">
+        <div class="result-success" id="resultMsg">✅ PDF generated successfully!</div>
+        <a class="btn-download" id="downloadBtn" href="#">⬇ Download Code PDF</a>
+      </div>
+
+      <button class="btn-primary" id="generateBtn">👨‍💻 Generate PDF</button>
+    </div>
+  </div>
+</div>
+
+<div class="ad-slot"><p style="padding:.5rem 0">Advertisement</p></div>
+
+<section class="section">
+  <h2>Supported Languages</h2>
+  <div class="lang-grid">
+    <div class="lang-tag">JavaScript</div><div class="lang-tag">TypeScript</div>
+    <div class="lang-tag">Python</div><div class="lang-tag">Java</div>
+    <div class="lang-tag">C++</div><div class="lang-tag">C</div>
+    <div class="lang-tag">C#</div><div class="lang-tag">PHP</div>
+    <div class="lang-tag">Ruby</div><div class="lang-tag">Go</div>
+    <div class="lang-tag">Rust</div><div class="lang-tag">Swift</div>
+    <div class="lang-tag">Kotlin</div><div class="lang-tag">HTML</div>
+    <div class="lang-tag">CSS</div><div class="lang-tag">SQL</div>
+    <div class="lang-tag">Bash</div><div class="lang-tag">JSON</div>
+    <div class="lang-tag">XML</div><div class="lang-tag">Markdown</div>
+    <div class="lang-tag">Plain Text</div>
+  </div>
+</section>
+
+<footer>
+  <p style="font-weight:700;margin-bottom:.5rem">PDF<span style="background:linear-gradient(135deg,#7c6dfa,#fa6d8f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Maker</span></p>
+  <p style="margin-bottom:.8rem">Free online PDF tools — private, unlimited, no watermarks.</p>
+  <p><a href="index.html">All Tools</a><a href="about.html">About</a><a href="privacy.html">Privacy</a></p>
+</footer>
+
+<script>
+(function(){
+  // ── THEMES ──────────────────────────────────────────────────
+  var THEMES={
+    dark:{bg:'#1e1e2e',text:'#cdd6f4',lineNum:'#45475a',lineNumBg:'#181825',headerBg:'#181825',headerText:'#7c6dfa',keyword:'#cba6f7',string:'#a6e3a1',number:'#fab387',comment:'#6c7086',func:'#89b4fa',operator:'#89dceb',symbol:'#f38ba8'},
+    light:{bg:'#ffffff',text:'#24292e',lineNum:'#959da5',lineNumBg:'#f6f8fa',headerBg:'#f6f8fa',headerText:'#7c6dfa',keyword:'#d73a49',string:'#032f62',number:'#005cc5',comment:'#6a737d',func:'#6f42c1',operator:'#005cc5',symbol:'#e36209'},
+    monokai:{bg:'#272822',text:'#f8f8f2',lineNum:'#75715e',lineNumBg:'#1e1f1c',headerBg:'#1e1f1c',headerText:'#a6e22e',keyword:'#f92672',string:'#e6db74',number:'#ae81ff',comment:'#75715e',func:'#a6e22e',operator:'#f8f8f2',symbol:'#66d9e8'},
+    github:{bg:'#f6f8fa',text:'#24292e',lineNum:'#babbbd',lineNumBg:'#eaecef',headerBg:'#eaecef',headerText:'#0366d6',keyword:'#d73a49',string:'#032f62',number:'#005cc5',comment:'#6a737d',func:'#6f42c1',operator:'#d73a49',symbol:'#e36209'},
+    dracula:{bg:'#282a36',text:'#f8f8f2',lineNum:'#6272a4',lineNumBg:'#21222c',headerBg:'#21222c',headerText:'#bd93f9',keyword:'#ff79c6',string:'#f1fa8c',number:'#bd93f9',comment:'#6272a4',func:'#50fa7b',operator:'#ff79c6',symbol:'#8be9fd'},
+    nord:{bg:'#2e3440',text:'#d8dee9',lineNum:'#4c566a',lineNumBg:'#242933',headerBg:'#242933',headerText:'#88c0d0',keyword:'#81a1c1',string:'#a3be8c',number:'#b48ead',comment:'#4c566a',func:'#88c0d0',operator:'#81a1c1',symbol:'#ebcb8b'}
+  };
+
+  // ── SAMPLES ──────────────────────────────────────────────────
+  var SAMPLES={
+    javascript:'// Fibonacci sequence\nfunction fibonacci(n) {\n  if (n <= 1) return n;\n  let a = 0, b = 1;\n  for (let i = 2; i <= n; i++) {\n    [a, b] = [b, a + b];\n  }\n  return b;\n}\n\nfor (let i = 0; i <= 10; i++) {\n  console.log(`fib(${i}) = ${fibonacci(i)}`);\n}',
+    python:'# Quick sort implementation\ndef quicksort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr) // 2]\n    left = [x for x in arr if x < pivot]\n    middle = [x for x in arr if x == pivot]\n    right = [x for x in arr if x > pivot]\n    return quicksort(left) + middle + quicksort(right)\n\ndata = [3, 6, 8, 10, 1, 2, 1]\nprint(quicksort(data))',
+    java:'// Binary search\npublic class BinarySearch {\n    public static int search(int[] arr, int target) {\n        int left = 0, right = arr.length - 1;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            if (arr[mid] == target) return mid;\n            if (arr[mid] < target) left = mid + 1;\n            else right = mid - 1;\n        }\n        return -1;\n    }\n\n    public static void main(String[] args) {\n        int[] arr = {2, 3, 4, 10, 40};\n        System.out.println(search(arr, 10));\n    }\n}',
+    typescript:'// Generic stack implementation\nclass Stack<T> {\n  private items: T[] = [];\n\n  push(item: T): void {\n    this.items.push(item);\n  }\n\n  pop(): T | undefined {\n    return this.items.pop();\n  }\n\n  peek(): T | undefined {\n    return this.items[this.items.length - 1];\n  }\n\n  get size(): number {\n    return this.items.length;\n  }\n}\n\nconst stack = new Stack<number>();\nstack.push(1);\nstack.push(2);\nconsole.log(stack.peek()); // 2',
+    cpp:'#include <iostream>\n#include <vector>\n\n// Merge sort\nvoid merge(std::vector<int>& arr, int l, int m, int r) {\n    int n1 = m - l + 1, n2 = r - m;\n    std::vector<int> L(n1), R(n2);\n    for (int i = 0; i < n1; i++) L[i] = arr[l + i];\n    for (int j = 0; j < n2; j++) R[j] = arr[m + 1 + j];\n    int i = 0, j = 0, k = l;\n    while (i < n1 && j < n2)\n        arr[k++] = (L[i] <= R[j]) ? L[i++] : R[j++];\n    while (i < n1) arr[k++] = L[i++];\n    while (j < n2) arr[k++] = R[j++];\n}\n\nint main() {\n    std::vector<int> arr = {12, 11, 13, 5, 6, 7};\n    std::cout << "Sorted array\\n";\n    return 0;\n}',
+    html:'<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8"/>\n  <title>My Page</title>\n  <style>\n    body { font-family: sans-serif; padding: 2rem; }\n    h1 { color: #7c6dfa; }\n  </style>\n</head>\n<body>\n  <h1>Hello World</h1>\n  <p>This is a sample HTML page.</p>\n  <button onclick="alert(\'Clicked!\')">Click me</button>\n</body>\n</html>',
+    css:'/* Modern button styles */\n.button {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.5rem;\n  padding: 0.75rem 1.5rem;\n  border-radius: 12px;\n  border: none;\n  font-weight: 700;\n  cursor: pointer;\n  transition: all 0.25s ease;\n  background: linear-gradient(135deg, #7c6dfa, #fa6d8f);\n  color: white;\n  box-shadow: 0 4px 20px rgba(124, 109, 250, 0.4);\n}\n\n.button:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 30px rgba(124, 109, 250, 0.5);\n}\n\n.button:active {\n  transform: translateY(0);\n}',
+    sql:'-- Find top customers by total order value\nSELECT\n    c.customer_id,\n    c.name,\n    COUNT(o.order_id) AS total_orders,\n    SUM(o.total_amount) AS total_spent,\n    AVG(o.total_amount) AS avg_order_value\nFROM customers c\nLEFT JOIN orders o ON c.customer_id = o.customer_id\nWHERE o.created_at >= DATE_SUB(NOW(), INTERVAL 1 YEAR)\nGROUP BY c.customer_id, c.name\nHAVING total_orders > 5\nORDER BY total_spent DESC\nLIMIT 20;',
+    plain:'This is plain text content.\nNo syntax highlighting will be applied.\n\nYou can use this for:\n- Notes and documentation\n- Configuration files\n- Log files\n- Any text content'
+  };
+
+  var currentTheme='dark';
+  var codeInput=document.getElementById('codeInput');
+  var langSelect=document.getElementById('langSelect');
+  var generateBtn=document.getElementById('generateBtn');
+  var progressWrap=document.getElementById('progressWrap');
+  var progressBar=document.getElementById('progressBar');
+  var progressPct=document.getElementById('progressPct');
+  var progressLabel=document.getElementById('progressLabel');
+  var resultBox=document.getElementById('resultBox');
+  var downloadBtn=document.getElementById('downloadBtn');
+
+  function prog(p,l){progressBar.style.width=p+'%';progressPct.textContent=p+'%';if(l)progressLabel.textContent=l;}
+
+  // Theme buttons
+  document.querySelectorAll('.theme-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.theme-btn').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      currentTheme=btn.dataset.theme;
+    });
+  });
+
+  // Lang change
+  langSelect.addEventListener('change',function(){
+    document.getElementById('editorLangLabel').textContent=langSelect.value;
+  });
+
+  // Char count
+  codeInput.addEventListener('input',function(){
+    var lines=codeInput.value.split('\n').length;
+    var chars=codeInput.value.length;
+    document.getElementById('charCount').textContent=lines+' lines • '+chars.toLocaleString()+' characters';
+  });
+
+  // Tab support in textarea
+  codeInput.addEventListener('keydown',function(e){
+    if(e.key==='Tab'){
+      e.preventDefault();
+      var start=this.selectionStart;
+      var end=this.selectionEnd;
+      this.value=this.value.substring(0,start)+'  '+this.value.substring(end);
+      this.selectionStart=this.selectionEnd=start+2;
+    }
+  });
+
+  // Clear / Sample
+  document.getElementById('clearBtn').addEventListener('click',function(){codeInput.value='';codeInput.dispatchEvent(new Event('input'));});
+  document.getElementById('sampleBtn').addEventListener('click',function(){
+    var lang=langSelect.value;
+    codeInput.value=SAMPLES[lang]||SAMPLES['plain'];
+    codeInput.dispatchEvent(new Event('input'));
+  });
+
+  // ── SYNTAX TOKENIZER ────────────────────────────────────────
+  function tokenize(line, lang){
+    if(lang==='plain')return [{type:'text',val:line}];
+    var tokens=[];
+    var keywords={
+      javascript:['function','const','let','var','return','if','else','for','while','do','switch','case','break','continue','new','class','extends','import','export','default','async','await','typeof','instanceof','this','true','false','null','undefined','try','catch','finally','throw','of','in'],
+      typescript:['function','const','let','var','return','if','else','for','while','new','class','extends','import','export','async','await','interface','type','enum','implements','public','private','protected','readonly','static','abstract','true','false','null','undefined'],
+      python:['def','class','return','if','elif','else','for','while','import','from','as','with','try','except','finally','raise','pass','break','continue','and','or','not','in','is','lambda','yield','True','False','None','self'],
+      java:['public','private','protected','class','interface','extends','implements','return','if','else','for','while','new','import','package','static','final','void','int','String','boolean','this','super','try','catch','throw','true','false','null'],
+      cpp:['int','float','double','char','bool','void','return','if','else','for','while','class','struct','namespace','include','public','private','protected','new','delete','this','true','false','nullptr','const','static','auto'],
+      csharp:['public','private','protected','class','interface','return','if','else','for','while','new','using','namespace','static','void','string','int','bool','var','async','await','true','false','null','this','base','try','catch','throw'],
+      php:['function','class','return','if','else','for','while','foreach','echo','print','new','require','include','public','private','protected','static','true','false','null','this'],
+      ruby:['def','class','module','return','if','elsif','else','unless','while','for','do','end','require','include','extend','true','false','nil','self','super'],
+      go:['func','var','const','type','struct','interface','return','if','else','for','range','import','package','go','chan','select','case','break','continue','true','false','nil'],
+      rust:['fn','let','mut','const','struct','enum','impl','trait','use','mod','pub','return','if','else','match','for','while','loop','true','false','None','Some'],
+      swift:['func','var','let','class','struct','enum','protocol','return','if','else','for','while','import','true','false','nil','self','super','guard','defer','throws','async','await'],
+      kotlin:['fun','val','var','class','object','interface','return','if','else','for','while','when','import','package','true','false','null','this','super','override','data','sealed'],
+      html:['html','head','body','div','span','p','a','img','script','style','link','meta','title','h1','h2','h3','ul','li','form','input','button','table','tr','td','th'],
+      css:['color','background','font','margin','padding','border','display','flex','grid','position','width','height','top','left','right','bottom','transition','transform','animation','overflow'],
+      sql:['SELECT','FROM','WHERE','JOIN','LEFT','RIGHT','INNER','OUTER','ON','GROUP','BY','ORDER','HAVING','INSERT','UPDATE','DELETE','CREATE','ALTER','DROP','TABLE','INDEX','AS','AND','OR','NOT','IN','LIKE','BETWEEN','NULL','COUNT','SUM','AVG','MAX','MIN','DISTINCT','LIMIT','OFFSET','UNION'],
+      bash:['if','then','else','elif','fi','for','while','do','done','case','esac','function','return','echo','exit','source','export','local','readonly'],
+      json:[],css:[],xml:[],markdown:[]
+    };
+    var kws=(keywords[lang]||[]).map(function(k){return k.toLowerCase();});
+
+    var i=0;
+    var s=line;
+    while(i<s.length){
+      // comment
+      if((lang==='javascript'||lang==='typescript'||lang==='java'||lang==='cpp'||lang==='csharp'||lang==='php'||lang==='swift'||lang==='kotlin'||lang==='go'||lang==='rust'||lang==='css')&&s.slice(i,i+2)==='//'){
+        tokens.push({type:'comment',val:s.slice(i)});break;
+      }
+      if((lang==='python'||lang==='ruby'||lang==='bash')&&s[i]==='#'){
+        tokens.push({type:'comment',val:s.slice(i)});break;
+      }
+      if(lang==='sql'&&s.slice(i,i+2)==='--'){
+        tokens.push({type:'comment',val:s.slice(i)});break;
+      }
+      // string
+      if(s[i]==='"'||s[i]==="'"||s[i]==='`'){
+        var q=s[i],j=i+1,str=q;
+        while(j<s.length&&s[j]!==q){if(s[j]==='\\'&&j+1<s.length){str+=s[j]+s[j+1];j+=2;}else{str+=s[j];j++;}}
+        str+=q;tokens.push({type:'string',val:str});i=j+1;continue;
+      }
+      // number
+      if(/[0-9]/.test(s[i])){
+        var num='';var j=i;
+        while(j<s.length&&/[0-9._xXa-fA-F]/.test(s[j])){num+=s[j];j++;}
+        tokens.push({type:'number',val:num});i=j;continue;
+      }
+      // word
+      if(/[a-zA-Z_$]/.test(s[i])){
+        var word='';var j=i;
+        while(j<s.length&&/[a-zA-Z0-9_$]/.test(s[j])){word+=s[j];j++;}
+        var isKw=kws.indexOf(word.toLowerCase())!==-1;
+        var isFunc=s[j]==='(';
+        if(isKw)tokens.push({type:'keyword',val:word});
+        else if(isFunc)tokens.push({type:'func',val:word});
+        else tokens.push({type:'text',val:word});
+        i=j;continue;
+      }
+      // operator
+      if(/[+\-*/%=<>!&|^~?:;,{}()\[\]]/.test(s[i])){
+        tokens.push({type:'operator',val:s[i]});i++;continue;
+      }
+      tokens.push({type:'text',val:s[i]});i++;
+    }
+    return tokens;
+  }
+
+  // ── PAGE SIZE HELPER ─────────────────────────────────────────
+  function getPageDims(size,orient){
+    var sizes={'A4':[595.28,841.89],'Letter':[612,792],'A3':[841.89,1190.55]};
+    var d=sizes[size]||sizes['A4'];
+    return orient==='landscape'?[d[1],d[0]]:d;
+  }
+
+  // ── GENERATE ─────────────────────────────────────────────────
+  generateBtn.addEventListener('click',async function(){
+    var code=codeInput.value.trim();
+    if(!code){alert('Please paste some code first.');return;}
+    generateBtn.disabled=true;
+    resultBox.classList.remove('show');
+    progressWrap.classList.add('show');
+    prog(5,'Setting up…');
+
+    var lang=langSelect.value;
+    var title=document.getElementById('docTitle').value||langSelect.options[langSelect.selectedIndex].text+' Code';
+    var fontSize=parseInt(document.getElementById('fontSize').value);
+    var pageSizeKey=document.getElementById('pageSize').value;
+    var orient=document.getElementById('orientation').value;
+    var showLineNums=document.getElementById('lineNumbers').value==='yes';
+    var theme=THEMES[currentTheme];
+
+    try{
+      var PDFDocument=PDFLib.PDFDocument;
+      var rgb=PDFLib.rgb;
+      var pdfDoc=await PDFDocument.create();
+
+      var dims=getPageDims(pageSizeKey,orient);
+      var PW=dims[0],PH=dims[1];
+      var margin=40;
+      var headerH=36;
+      var lineH=fontSize*1.55;
+      var codeX=margin+(showLineNums?34:0);
+      var codeW=PW-codeX-margin;
+      var contentTop=PH-margin-headerH-8;
+
+      prog(20,'Parsing code…');
+      var lines=code.split('\n');
+      var totalLines=lines.length;
+      var linesPerPage=Math.floor((PH-margin*2-headerH-16)/lineH);
+
+      // Color helper
+      function c(hex){
+        var r=parseInt(hex.slice(1,3),16)/255;
+        var g=parseInt(hex.slice(3,5),16)/255;
+        var b=parseInt(hex.slice(5,7),16)/255;
+        return rgb(r,g,b);
+      }
+
+      var totalPages=Math.ceil(totalLines/linesPerPage)||1;
+      var lineIdx=0;
+
+      for(var pageNum=1;pageNum<=totalPages;pageNum++){
+        prog(20+Math.round((pageNum/totalPages)*75),'Rendering page '+pageNum+' of '+totalPages+'…');
+        var page=pdfDoc.addPage([PW,PH]);
+
+        // Background
+        page.drawRectangle({x:0,y:0,width:PW,height:PH,color:c(theme.bg)});
+
+        // Header bar
+        page.drawRectangle({x:0,y:PH-headerH,width:PW,height:headerH,color:c(theme.headerBg)});
+        page.drawText(title,{x:margin,y:PH-headerH+11,size:11,color:c(theme.headerText)});
+        var pageLabel='Page '+pageNum+' / '+totalPages+' — '+totalLines+' lines';
+        page.drawText(pageLabel,{x:PW-margin-pageLabel.length*6,y:PH-headerH+11,size:9,color:c(theme.lineNum)});
+        // Header bottom line
+        page.drawLine({start:{x:0,y:PH-headerH},end:{x:PW,y:PH-headerH},thickness:1,color:c(theme.lineNum),opacity:.3});
+
+        var y=contentTop;
+        var linesOnPage=0;
+
+        while(lineIdx<totalLines&&linesOnPage<linesPerPage){
+          var lineNum=lineIdx+1;
+          var lineText=lines[lineIdx];
+
+          // Line number background
+          if(showLineNums){
+            page.drawRectangle({x:margin,y:y-fontSize*.3,width:30,height:lineH,color:c(theme.lineNumBg),opacity:.6});
+            page.drawText(String(lineNum),{
+              x:margin+(lineNum<10?14:lineNum<100?8:2),
+              y:y,size:fontSize-1,color:c(theme.lineNum)
+            });
+          }
+
+          // Tokenize and draw
+          var tokens=tokenize(lineText,lang);
+          var tx=codeX;
+          for(var t=0;t<tokens.length;t++){
+            var tok=tokens[t];
+            var tokColor;
+            if(tok.type==='keyword')tokColor=c(theme.keyword);
+            else if(tok.type==='string')tokColor=c(theme.string);
+            else if(tok.type==='number')tokColor=c(theme.number);
+            else if(tok.type==='comment')tokColor=c(theme.comment);
+            else if(tok.type==='func')tokColor=c(theme.func);
+            else if(tok.type==='operator')tokColor=c(theme.operator);
+            else tokColor=c(theme.text);
+
+            var txt=tok.val;
+            if(!txt)continue;
+            // Estimate char width (monospace approximation)
+            var charW=fontSize*0.6;
+            // Truncate if overflowing page width
+            var maxChars=Math.floor(codeW/(charW));
+            if(tx+txt.length*charW>PW-margin){
+              txt=txt.substring(0,Math.max(0,Math.floor((PW-margin-tx)/charW)));
+              if(!txt)break;
+            }
+            try{
+              page.drawText(txt,{x:tx,y:y,size:fontSize,color:tokColor});
+            }catch(e){}
+            tx+=txt.length*charW;
+            if(tx>=PW-margin)break;
+          }
+
+          y-=lineH;
+          lineIdx++;
+          linesOnPage++;
+        }
+      }
+
+      prog(98,'Saving PDF…');
+      var bytes=await pdfDoc.save();
+      prog(100,'Done!');
+
+      var blob=new Blob([bytes],{type:'application/pdf'});
+      downloadBtn.href=URL.createObjectURL(blob);
+      var safeTitle=title.replace(/[^a-z0-9]/gi,'_').toLowerCase();
+      downloadBtn.download=safeTitle+'_pdfmaker.pdf';
+      document.getElementById('resultMsg').textContent='✅ PDF generated! '+totalLines+' lines across '+totalPages+' page'+(totalPages>1?'s':'')+'.';
+
+      setTimeout(function(){progressWrap.classList.remove('show');resultBox.classList.add('show');generateBtn.disabled=false;},400);
+
+    }catch(err){
+      progressWrap.classList.remove('show');generateBtn.disabled=false;
+      alert('Error: '+err.message);
+    }
+  });
+})();
+</script>
+</body>
+</html>

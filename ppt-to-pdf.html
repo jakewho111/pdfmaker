@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PowerPoint to PDF – Coming Soon | PDF Maker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#050508;--bg2:#0d0d14;--bg3:#13131e;--border:#252535;--border2:#2e2e45;--accent:#7c6dfa;--accent2:#fa6d8f;--text:#f0efff;--muted:#7070a0;--glow:rgba(124,109,250,.25);}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(124,109,250,.1) 0%,transparent 60%);pointer-events:none;z-index:0;}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:rgba(5,5,8,.8);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100;}
+    .logo{font-weight:800;font-size:1.4rem;color:var(--text);text-decoration:none;}
+    .logo span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .nav-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:.5rem 1.2rem;border-radius:10px;font-size:.88rem;text-decoration:none;font-weight:700;}
+    .main{flex:1;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem;position:relative;z-index:1;}
+    .card{max-width:520px;width:100%;background:linear-gradient(135deg,rgba(15,15,26,.95),rgba(13,13,20,.95));border:1px solid var(--border2);border-radius:24px;padding:3rem 2.5rem;text-align:center;box-shadow:0 40px 80px rgba(0,0,0,.4);}
+    .icon{font-size:4rem;margin-bottom:1.2rem;display:block;animation:float 3s ease-in-out infinite;}
+    .badge{display:inline-flex;background:rgba(124,109,250,.12);border:1px solid rgba(124,109,250,.25);padding:.3rem .9rem;border-radius:999px;font-size:.75rem;font-weight:600;color:var(--accent);margin-bottom:1.2rem;}
+    h1{font-weight:800;font-size:2rem;margin-bottom:.8rem;letter-spacing:-.02em;}
+    .grad{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    p{color:var(--muted);line-height:1.7;margin-bottom:2rem;font-size:.95rem;}
+    .btn-home{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:.8rem 1.8rem;border-radius:12px;text-decoration:none;font-weight:700;font-size:.95rem;box-shadow:0 4px 20px var(--glow);transition:all .25s;}
+    .btn-home:hover{transform:translateY(-2px);}
+    .tools-hint{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);}
+    .tools-hint p{color:var(--muted);font-size:.82rem;margin-bottom:.8rem;}
+    .available{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;}
+    .available a{background:var(--bg3);border:1px solid var(--border2);color:var(--muted);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-size:.78rem;font-weight:500;transition:all .2s;}
+    .available a:hover{border-color:var(--accent);color:var(--text);}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    footer{border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;color:var(--muted);font-size:.78rem;position:relative;z-index:1;}
+    footer a{color:var(--muted);text-decoration:none;margin:0 .6rem;}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">PDF<span>Maker</span></a>
+  <a href="index.html" class="nav-btn">All Tools &rarr;</a>
+</nav>
+<div class="main">
+  <div class="card">
+    <span class="icon">📑</span>
+    <div class="badge">&#x1F6A7; Coming Soon</div>
+    <h1>PowerPoint to PDF<br><span class="grad">is on the way!</span></h1>
+    <p>We are building the <strong style="color:var(--text)">PowerPoint to PDF</strong> tool right now. It will be available soon — fully free, private, and in-browser like all our other tools.</p>
+    <a href="index.html" class="btn-home">&larr; Browse Available Tools</a>
+    <div class="tools-hint">
+      <p>Available right now:</p>
+      <div class="available">
+        <a href="jpg-to-pdf.html">&#x1F5BC;&#xFE0F; Image to PDF</a>
+        <a href="compress-pdf.html">&#x1F5DC;&#xFE0F; Compress PDF</a>
+        <a href="merge-pdf.html">&#x1F517; Merge PDF</a>
+        <a href="split-pdf.html">&#x2702;&#xFE0F; Split PDF</a>
+        <a href="rotate-pdf.html">&#x1F504; Rotate PDF</a>
+        <a href="protect-pdf.html">&#x1F512; Protect PDF</a>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>&copy; 2025 PDF Maker &mdash; Free PDF Tools &nbsp;|&nbsp; <a href="index.html">Home</a><a href="privacy.html">Privacy</a><a href="about.html">About</a></p>
+</footer>
+</body>
+</html>

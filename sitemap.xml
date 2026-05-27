@@ -8,8 +8,14 @@
   <url><loc>https://pdfmaker.com/rotate-pdf.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pdfmaker.com/protect-pdf.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pdfmaker.com/pdf-to-image.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://pdfmaker.com/watermark-pdf.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pdfmaker.com/code-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://pdfmaker.com/ocr-pdf.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://pdfmaker.com/ocr-pdf.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://pdfmaker.com/word-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdfmaker.com/excel-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdfmaker.com/ppt-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdfmaker.com/html-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdfmaker.com/markdown-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://pdfmaker.com/about.html</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
   <url><loc>https://pdfmaker.com/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>

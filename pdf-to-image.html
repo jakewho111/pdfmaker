@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PDF to Image Converter Online Free | PDF Maker</title>
+  <meta name="description" content="Convert PDF pages to JPG or PNG images online for free. 100% in-browser, private, no uploads. No limits, no watermarks."/>
+  <link rel="canonical" href="https://pdfmaker.com/pdf-to-image"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <style>
+    :root{--bg:#050508;--bg2:#0d0d14;--bg3:#13131e;--bg4:#1a1a28;--border:#252535;--border2:#2e2e45;--accent:#7c6dfa;--accent2:#fa6d8f;--accent3:#6dfabd;--text:#f0efff;--muted:#7070a0;--success:#4ade80;--glow:rgba(124,109,250,.25);}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(124,109,250,.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(250,109,143,.06) 0%,transparent 50%);pointer-events:none;z-index:0;}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:rgba(5,5,8,.85);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100;}
+    .logo{font-weight:800;font-size:1.4rem;color:var(--text);text-decoration:none;letter-spacing:-.02em;}
+    .logo span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .nav-links{display:flex;gap:1.5rem;}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s;}
+    .nav-links a:hover{color:var(--text);}
+    .nav-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:.5rem 1.2rem;border-radius:10px;font-size:.88rem;text-decoration:none;font-weight:700;box-shadow:0 4px 15px var(--glow);}
+    .hero{text-align:center;padding:5rem 1.5rem 3rem;position:relative;z-index:1;}
+    .tool-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(124,109,250,.12);border:1px solid rgba(124,109,250,.25);padding:.4rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:600;color:var(--accent);margin-bottom:1.5rem;animation:fadeInDown .6s ease both;}
+    h1{font-weight:800;font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.1;margin-bottom:1rem;letter-spacing:-.03em;animation:fadeInUp .6s ease .1s both;}
+    .grad{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .subtitle{color:var(--muted);font-size:1rem;max-width:500px;margin:0 auto 2rem;line-height:1.7;animation:fadeInUp .6s ease .2s both;}
+    .feat-pills{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin-bottom:3rem;animation:fadeInUp .6s ease .3s both;}
+    .pill{background:var(--bg3);border:1px solid var(--border2);padding:.3rem .9rem;border-radius:999px;font-size:.78rem;color:var(--muted);font-weight:500;}
+    .tool-wrap{padding:0 1.5rem 3rem;position:relative;z-index:1;animation:fadeInUp .6s ease .4s both;}
+    .tool-card{max-width:740px;margin:0 auto;background:linear-gradient(135deg,rgba(15,15,26,.95),rgba(13,13,20,.95));border:1px solid var(--border2);border-radius:24px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.4);}
+    .card-header{background:linear-gradient(135deg,rgba(124,109,250,.12),rgba(250,109,143,.08));padding:1.4rem 1.8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;}
+    .card-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+    .card-title{font-weight:800;font-size:1.05rem;}
+    .card-sub{color:var(--muted);font-size:.8rem;margin-top:.15rem;}
+    .card-body{padding:2rem 1.8rem;}
+    .dropzone{border:2px dashed var(--border2);border-radius:18px;padding:3rem 2rem;text-align:center;cursor:pointer;transition:all .3s;position:relative;background:rgba(124,109,250,.02);}
+    .dropzone:hover,.dropzone.drag-over{border-color:var(--accent);background:rgba(124,109,250,.06);transform:scale(1.01);}
+    .dropzone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .drop-emoji{font-size:3rem;margin-bottom:.8rem;display:block;animation:float 3s ease-in-out infinite;}
+    .drop-title{font-weight:800;font-size:1.1rem;margin-bottom:.4rem;}
+    .drop-sub{color:var(--muted);font-size:.85rem;margin-bottom:1rem;}
+    .drop-cta{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:.55rem 1.4rem;border-radius:10px;font-size:.88rem;font-weight:700;pointer-events:none;}
+    .file-info{display:none;background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:1rem 1.2rem;margin:1.2rem 0;align-items:center;gap:.8rem;}
+    .file-info.show{display:flex;}
+    .file-details{flex:1;min-width:0;}
+    .file-name{font-weight:600;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .file-size{color:var(--muted);font-size:.78rem;margin-top:.2rem;}
+    .remove-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:.3rem;border-radius:6px;transition:all .2s;flex-shrink:0;}
+    .remove-btn:hover{color:var(--accent2);}
+    .options{display:none;background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:1.2rem;margin:1rem 0;}
+    .options.show{display:block;}
+    .opt-title{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem;}
+    .opt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;}
+    .opt-group label{font-size:.72rem;color:var(--muted);font-weight:600;display:block;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em;}
+    .opt-select{width:100%;background:var(--bg4);border:1.5px solid var(--border2);border-radius:10px;padding:.6rem .8rem;color:var(--text);font-size:.85rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;cursor:pointer;transition:border-color .2s;}
+    .opt-select:focus{border-color:var(--accent);}
+    .opt-select option{background:var(--bg3);}
+    .progress-wrap{display:none;margin:1rem 0;}
+    .progress-wrap.show{display:block;}
+    .progress-top{display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.8rem;}
+    .progress-label{color:var(--muted);}
+    .progress-pct{color:var(--accent);font-weight:700;}
+    .progress-track{height:6px;background:var(--bg4);border-radius:99px;overflow:hidden;}
+    .progress-bar{height:100%;border-radius:99px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s cubic-bezier(.4,0,.2,1);box-shadow:0 0 10px var(--glow);}
+    /* PREVIEW GRID */
+    .preview-section{display:none;margin:1.2rem 0;}
+    .preview-section.show{display:block;}
+    .preview-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+    .preview-title{font-weight:700;font-size:.9rem;}
+    .dl-all-btn{display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:.5rem 1.1rem;border-radius:10px;font-size:.82rem;font-weight:700;text-decoration:none;transition:all .2s;border:none;cursor:pointer;}
+    .dl-all-btn:hover{transform:translateY(-1px);box-shadow:0 4px 15px var(--glow);}
+    .pages-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.8rem;max-height:460px;overflow-y:auto;padding:.2rem;}
+    .page-item{background:var(--bg3);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .2s;animation:fadeInUp .3s ease both;}
+    .page-item:hover{border-color:var(--accent);transform:translateY(-2px);}
+    .page-canvas-wrap{width:100%;aspect-ratio:3/4;background:var(--bg2);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+    .page-canvas-wrap canvas{max-width:100%;max-height:100%;display:block;}
+    .page-footer{padding:.6rem .8rem;display:flex;align-items:center;justify-content:space-between;}
+    .page-label{font-size:.72rem;color:var(--muted);}
+    .page-dl{background:none;border:1px solid var(--border2);color:var(--muted);border-radius:7px;padding:.25rem .6rem;font-size:.72rem;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;}
+    .page-dl:hover{border-color:var(--accent);color:var(--accent);}
+    .btn-primary{width:100%;padding:1rem;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1rem;border:none;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.6rem;box-shadow:0 4px 20px var(--glow);margin-top:1rem;}
+    .btn-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 30px var(--glow);}
+    .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+    .ad-slot{max-width:740px;margin:2rem auto;background:var(--bg2);border:1px dashed var(--border);border-radius:14px;padding:1rem;text-align:center;color:var(--muted);font-size:.75rem;position:relative;z-index:1;}
+    .section{max-width:740px;margin:3rem auto;padding:0 1.5rem;position:relative;z-index:1;}
+    .section h2{font-weight:800;font-size:1.5rem;margin-bottom:1.5rem;letter-spacing:-.02em;}
+    .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;}
+    .step{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.4rem;transition:all .2s;}
+    .step:hover{border-color:var(--border2);transform:translateY(-2px);}
+    .step-n{font-weight:800;font-size:2rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:.5;}
+    .step-t{font-weight:700;font-size:.9rem;margin:.4rem 0 .3rem;}
+    .step-d{color:var(--muted);font-size:.8rem;line-height:1.6;}
+    .faq{max-width:740px;margin:3rem auto 5rem;padding:0 1.5rem;position:relative;z-index:1;}
+    .faq h2{font-weight:800;font-size:1.5rem;margin-bottom:1.5rem;}
+    .faq-item{border:1px solid var(--border);border-radius:14px;margin-bottom:.7rem;overflow:hidden;}
+    .faq-q{padding:1rem 1.2rem;cursor:pointer;font-weight:600;font-size:.88rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;}
+    .faq-q:hover{background:rgba(124,109,250,.04);}
+    .faq-icon{color:var(--accent);transition:transform .3s;flex-shrink:0;}
+    .faq-a{padding:0 1.2rem;max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),padding .3s;color:var(--muted);font-size:.85rem;line-height:1.7;}
+    .faq-item.open .faq-a{max-height:200px;padding:.6rem 1.2rem 1.2rem;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);}
+    footer{border-top:1px solid var(--border);padding:2.5rem 2rem;text-align:center;color:var(--muted);font-size:.82rem;position:relative;z-index:1;}
+    footer a{color:var(--muted);text-decoration:none;margin:0 .8rem;transition:color .2s;}
+    footer a:hover{color:var(--text);}
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    @media(max-width:640px){nav{padding:1rem;}.nav-links{display:none;}.card-body{padding:1.4rem 1.2rem;}.opt-grid{grid-template-columns:1fr 1fr;}.pages-preview{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">PDF<span>Maker</span></a>
+  <div class="nav-links">
+    <a href="index.html">All Tools</a>
+    <a href="compress-pdf.html">Compress</a>
+    <a href="merge-pdf.html">Merge</a>
+  </div>
+  <a href="index.html" class="nav-btn">All Tools →</a>
+</nav>
+<section class="hero">
+  <div class="tool-badge">🖼️ PDF to Image Converter</div>
+  <h1>Convert PDF to<br><span class="grad">Images Instantly</span></h1>
+  <p class="subtitle">Convert every page of your PDF to JPG or PNG images. Choose quality and resolution. 100% private — runs in your browser.</p>
+  <div class="feat-pills">
+    <span class="pill">✓ JPG & PNG output</span>
+    <span class="pill">✓ All pages at once</span>
+    <span class="pill">✓ Custom quality</span>
+    <span class="pill">✓ No uploads</span>
+    <span class="pill">✓ No watermarks</span>
+  </div>
+</section>
+<div class="ad-slot"><p style="padding:.5rem 0">Advertisement</p></div>
+<div class="tool-wrap">
+  <div class="tool-card">
+    <div class="card-header">
+      <div class="card-icon">🖼️</div>
+      <div><div class="card-title">PDF to Image Converter</div><div class="card-sub">Convert pages to JPG or PNG • In-browser • Private</div></div>
+    </div>
+    <div class="card-body">
+      <div class="dropzone" id="dropzone">
+        <input type="file" accept=".pdf,application/pdf" id="fileInput"/>
+        <span class="drop-emoji">📄</span>
+        <div class="drop-title">Drop your PDF here</div>
+        <div class="drop-sub">Click to browse or drag and drop</div>
+        <span class="drop-cta">Choose PDF File</span>
+      </div>
+      <div class="file-info" id="fileInfo">
+        <span style="font-size:1.8rem;flex-shrink:0">📄</span>
+        <div class="file-details">
+          <div class="file-name" id="fileName">—</div>
+          <div class="file-size" id="fileSize">—</div>
+        </div>
+        <button class="remove-btn" id="removeBtn">✕</button>
+      </div>
+      <div class="options" id="optionsPanel">
+        <div class="opt-title">Output Settings</div>
+        <div class="opt-grid">
+          <div class="opt-group">
+            <label>Format</label>
+            <select class="opt-select" id="imgFormat">
+              <option value="jpeg">JPG (smaller)</option>
+              <option value="png">PNG (lossless)</option>
+            </select>
+          </div>
+          <div class="opt-group">
+            <label>Quality</label>
+            <select class="opt-select" id="imgQuality">
+              <option value="0.7">Good (70%)</option>
+              <option value="0.92" selected>High (92%)</option>
+              <option value="1.0">Maximum (100%)</option>
+            </select>
+          </div>
+          <div class="opt-group">
+            <label>Scale / DPI</label>
+            <select class="opt-select" id="imgScale">
+              <option value="1">1x (72 DPI)</option>
+              <option value="1.5">1.5x (108 DPI)</option>
+              <option value="2" selected>2x (144 DPI)</option>
+              <option value="3">3x (216 DPI)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-top"><span class="progress-label" id="progressLabel">Converting…</span><span class="progress-pct" id="progressPct">0%</span></div>
+        <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      </div>
+      <div class="preview-section" id="previewSection">
+        <div class="preview-header">
+          <span class="preview-title" id="previewTitle">Pages converted</span>
+          <button class="dl-all-btn" id="dlAllBtn">⬇ Download All</button>
+        </div>
+        <div class="pages-preview" id="pagesPreview"></div>
+      </div>
+      <button class="btn-primary" id="convertBtn" disabled>🖼️ Convert to Images</button>
+    </div>
+  </div>
+</div>
+<div class="ad-slot"><p style="padding:.5rem 0">Advertisement</p></div>
+<section class="section">
+  <h2>How it works</h2>
+  <div class="steps-grid">
+    <div class="step"><div class="step-n">01</div><div class="step-t">Upload PDF</div><div class="step-d">Drop your PDF file into the tool.</div></div>
+    <div class="step"><div class="step-n">02</div><div class="step-t">Set Options</div><div class="step-d">Choose format (JPG or PNG), quality and resolution scale.</div></div>
+    <div class="step"><div class="step-n">03</div><div class="step-t">Download Images</div><div class="step-d">Download individual pages or all at once.</div></div>
+  </div>
+</section>
+<section class="faq">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-item"><div class="faq-q">What is the difference between JPG and PNG? <span class="faq-icon">+</span></div><div class="faq-a">JPG produces smaller file sizes and is great for photographs and most documents. PNG is lossless (no quality loss) and is best for documents with sharp text, diagrams, or transparent elements.</div></div>
+  <div class="faq-item"><div class="faq-q">What does the scale setting do? <span class="faq-icon">+</span></div><div class="faq-a">Scale controls the resolution of the output image. 1x gives 72 DPI (screen quality), 2x gives 144 DPI (good for most uses), and 3x gives 216 DPI (print quality). Higher scale means larger file sizes.</div></div>
+  <div class="faq-item"><div class="faq-q">Are my files uploaded to a server? <span class="faq-icon">+</span></div><div class="faq-a">No. Everything runs in your browser using PDF.js. Your files never leave your device.</div></div>
+  <div class="faq-item"><div class="faq-q">Can I convert just one page? <span class="faq-icon">+</span></div><div class="faq-a">After conversion, each page has its own individual Download button. You can download just the pages you need.</div></div>
+</section>
+<footer>
+  <p style="font-weight:700;margin-bottom:.5rem">PDF<span style="background:linear-gradient(135deg,#7c6dfa,#fa6d8f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Maker</span></p>
+  <p style="margin-bottom:.8rem">Free online PDF tools — private, unlimited, no watermarks.</p>
+  <p><a href="index.html">All Tools</a><a href="about.html">About</a><a href="privacy.html">Privacy</a></p>
+</footer>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+(function(){
+  var pdfFile=null;
+  var renderedPages=[];
+  var dropzone=document.getElementById('dropzone');
+  var fileInput=document.getElementById('fileInput');
+  var fileInfo=document.getElementById('fileInfo');
+  var optionsPanel=document.getElementById('optionsPanel');
+  var convertBtn=document.getElementById('convertBtn');
+  var progressWrap=document.getElementById('progressWrap');
+  var progressBar=document.getElementById('progressBar');
+  var progressPct=document.getElementById('progressPct');
+  var progressLabel=document.getElementById('progressLabel');
+  var previewSection=document.getElementById('previewSection');
+  var pagesPreview=document.getElementById('pagesPreview');
+  var dlAllBtn=document.getElementById('dlAllBtn');
+
+  function fmt(b){if(b<1024)return b+' B';if(b<1048576)return (b/1024).toFixed(1)+' KB';return (b/1048576).toFixed(2)+' MB';}
+  function prog(p,l){progressBar.style.width=p+'%';progressPct.textContent=p+'%';if(l)progressLabel.textContent=l;}
+
+  function handleFile(f){
+    if(!f||(!f.type.includes('pdf')&&!f.name.toLowerCase().endsWith('.pdf'))){alert('Please select a PDF file.');return;}
+    pdfFile=f;
+    document.getElementById('fileName').textContent=f.name;
+    document.getElementById('fileSize').textContent=fmt(f.size);
+    fileInfo.classList.add('show');
+    optionsPanel.classList.add('show');
+    convertBtn.disabled=false;
+    previewSection.classList.remove('show');
+    progressWrap.classList.remove('show');
+    renderedPages=[];
+  }
+
+  dropzone.addEventListener('dragover',function(e){e.preventDefault();dropzone.classList.add('drag-over');});
+  dropzone.addEventListener('dragleave',function(){dropzone.classList.remove('drag-over');});
+  dropzone.addEventListener('drop',function(e){e.preventDefault();dropzone.classList.remove('drag-over');handleFile(e.dataTransfer.files[0]);});
+  fileInput.addEventListener('change',function(){handleFile(fileInput.files[0]);});
+  document.getElementById('removeBtn').addEventListener('click',function(){
+    pdfFile=null;fileInput.value='';
+    fileInfo.classList.remove('show');optionsPanel.classList.remove('show');
+    convertBtn.disabled=true;previewSection.classList.remove('show');
+    renderedPages=[];
+  });
+
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    item.querySelector('.faq-q').addEventListener('click',function(){item.classList.toggle('open');});
+  });
+
+  convertBtn.addEventListener('click',async function(){
+    if(!pdfFile)return;
+    convertBtn.disabled=true;
+    previewSection.classList.remove('show');
+    pagesPreview.innerHTML='';
+    renderedPages=[];
+    progressWrap.classList.add('show');
+    prog(5,'Loading PDF…');
+
+    var format=document.getElementById('imgFormat').value;
+    var quality=parseFloat(document.getElementById('imgQuality').value);
+    var scale=parseFloat(document.getElementById('imgScale').value);
+    var mimeType='image/'+format;
+    var ext=format==='jpeg'?'jpg':format;
+
+    try{
+      var ab=await pdfFile.arrayBuffer();
+      var pdfDoc=await pdfjsLib.getDocument({data:ab}).promise;
+      var numPages=pdfDoc.numPages;
+      prog(10,'Found '+numPages+' page'+(numPages>1?'s':'')+'…');
+
+      var baseName=pdfFile.name.replace(/\.pdf$/i,'');
+
+      for(var i=1;i<=numPages;i++){
+        prog(Math.round(10+(i/numPages)*85),'Rendering page '+i+' of '+numPages+'…');
+        var page=await pdfDoc.getPage(i);
+        var vp=page.getViewport({scale:scale});
+        var canvas=document.createElement('canvas');
+        canvas.width=vp.width;canvas.height=vp.height;
+        var ctx=canvas.getContext('2d');
+        if(format==='jpeg'){ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);}
+        await page.render({canvasContext:ctx,viewport:vp}).promise;
+        var dataUrl=canvas.toDataURL(mimeType,quality);
+        var fileName=baseName+'_page'+(i<10?'0':'')+i+'.'+ext;
+        renderedPages.push({dataUrl:dataUrl,fileName:fileName,pageNum:i});
+
+        // Add preview item
+        var item=document.createElement('div');
+        item.className='page-item';
+        var thumbCanvas=document.createElement('canvas');
+        var tw=vp.width,th=vp.height;
+        var maxDim=200;
+        if(tw>th){var s=maxDim/tw;tw=maxDim;th=Math.round(th*s);}
+        else{var s=maxDim/th;th=maxDim;tw=Math.round(tw*s);}
+        thumbCanvas.width=tw;thumbCanvas.height=th;
+        var tctx=thumbCanvas.getContext('2d');
+        tctx.drawImage(canvas,0,0,tw,th);
+        var wrap=document.createElement('div');wrap.className='page-canvas-wrap';
+        wrap.appendChild(thumbCanvas);
+        var foot=document.createElement('div');foot.className='page-footer';
+        foot.innerHTML='<span class="page-label">Page '+i+'</span><button class="page-dl" data-idx="'+(renderedPages.length-1)+'">⬇ Save</button>';
+        item.appendChild(wrap);item.appendChild(foot);
+        pagesPreview.appendChild(item);
+        foot.querySelector('.page-dl').addEventListener('click',(function(pg){
+          return function(){
+            var a=document.createElement('a');
+            a.href=pg.dataUrl;a.download=pg.fileName;a.click();
+          };
+        })(renderedPages[renderedPages.length-1]));
+      }
+
+      prog(100,'Done!');
+      document.getElementById('previewTitle').textContent=numPages+' page'+(numPages>1?'s':'')+' converted';
+      setTimeout(function(){progressWrap.classList.remove('show');previewSection.classList.add('show');convertBtn.disabled=false;},400);
+    }catch(err){
+      progressWrap.classList.remove('show');convertBtn.disabled=false;
+      alert('Error: '+err.message);
+    }
+  });
+
+  dlAllBtn.addEventListener('click',function(){
+    renderedPages.forEach(function(pg,i){
+      setTimeout(function(){
+        var a=document.createElement('a');a.href=pg.dataUrl;a.download=pg.fileName;a.click();
+      },i*200);
+    });
+  });
+})();
+</script>
+</body>
+</html>
