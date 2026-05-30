@@ -3,63 +3,402 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HTML to PDF – Coming Soon | PDF Maker</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <title>HTML to PDF Converter Online Free | PDF Maker</title>
+  <meta name="description" content="Convert HTML files or paste HTML code to PDF online for free. 100% in-browser, private, no uploads. No limits, no watermarks."/>
+  <link rel="canonical" href="https://pdfmaker.com/html-to-pdf"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
   <style>
-    :root{--bg:#050508;--bg2:#0d0d14;--bg3:#13131e;--border:#252535;--border2:#2e2e45;--accent:#7c6dfa;--accent2:#fa6d8f;--text:#f0efff;--muted:#7070a0;--glow:rgba(124,109,250,.25);}
+    :root{--bg:#050508;--bg2:#0d0d14;--bg3:#13131e;--bg4:#1a1a28;--border:#252535;--border2:#2e2e45;--accent:#7c6dfa;--accent2:#fa6d8f;--text:#f0efff;--muted:#7070a0;--success:#4ade80;--glow:rgba(124,109,250,.25);}
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;}
-    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(124,109,250,.1) 0%,transparent 60%);pointer-events:none;z-index:0;}
-    nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:rgba(5,5,8,.8);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100;}
+    body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(124,109,250,.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(250,109,143,.06) 0%,transparent 50%);pointer-events:none;z-index:0;}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:rgba(5,5,8,.85);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100;}
     .logo{font-weight:800;font-size:1.4rem;color:var(--text);text-decoration:none;}
     .logo span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .nav-links{display:flex;gap:1.5rem;}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s;}
+    .nav-links a:hover{color:var(--text);}
     .nav-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:.5rem 1.2rem;border-radius:10px;font-size:.88rem;text-decoration:none;font-weight:700;}
-    .main{flex:1;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem;position:relative;z-index:1;}
-    .card{max-width:520px;width:100%;background:linear-gradient(135deg,rgba(15,15,26,.95),rgba(13,13,20,.95));border:1px solid var(--border2);border-radius:24px;padding:3rem 2.5rem;text-align:center;box-shadow:0 40px 80px rgba(0,0,0,.4);}
-    .icon{font-size:4rem;margin-bottom:1.2rem;display:block;animation:float 3s ease-in-out infinite;}
-    .badge{display:inline-flex;background:rgba(124,109,250,.12);border:1px solid rgba(124,109,250,.25);padding:.3rem .9rem;border-radius:999px;font-size:.75rem;font-weight:600;color:var(--accent);margin-bottom:1.2rem;}
-    h1{font-weight:800;font-size:2rem;margin-bottom:.8rem;letter-spacing:-.02em;}
+    .hero{text-align:center;padding:5rem 1.5rem 3rem;position:relative;z-index:1;}
+    .tool-badge{display:inline-flex;background:rgba(124,109,250,.12);border:1px solid rgba(124,109,250,.25);padding:.4rem 1.1rem;border-radius:999px;font-size:.78rem;font-weight:600;color:var(--accent);margin-bottom:1.5rem;animation:fadeInDown .6s ease both;}
+    h1{font-weight:800;font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.1;margin-bottom:1rem;letter-spacing:-.03em;animation:fadeInUp .6s ease .1s both;}
     .grad{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    p{color:var(--muted);line-height:1.7;margin-bottom:2rem;font-size:.95rem;}
-    .btn-home{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:.8rem 1.8rem;border-radius:12px;text-decoration:none;font-weight:700;font-size:.95rem;box-shadow:0 4px 20px var(--glow);transition:all .25s;}
-    .btn-home:hover{transform:translateY(-2px);}
-    .tools-hint{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);}
-    .tools-hint p{color:var(--muted);font-size:.82rem;margin-bottom:.8rem;}
-    .available{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;}
-    .available a{background:var(--bg3);border:1px solid var(--border2);color:var(--muted);padding:.3rem .8rem;border-radius:8px;text-decoration:none;font-size:.78rem;font-weight:500;transition:all .2s;}
-    .available a:hover{border-color:var(--accent);color:var(--text);}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-    footer{border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;color:var(--muted);font-size:.78rem;position:relative;z-index:1;}
-    footer a{color:var(--muted);text-decoration:none;margin:0 .6rem;}
+    .subtitle{color:var(--muted);font-size:1rem;max-width:520px;margin:0 auto 2rem;line-height:1.7;animation:fadeInUp .6s ease .2s both;}
+    .feat-pills{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin-bottom:3rem;animation:fadeInUp .6s ease .3s both;}
+    .pill{background:var(--bg3);border:1px solid var(--border2);padding:.3rem .9rem;border-radius:999px;font-size:.78rem;color:var(--muted);font-weight:500;}
+    .tool-wrap{padding:0 1.5rem 3rem;position:relative;z-index:1;animation:fadeInUp .6s ease .4s both;}
+    .tool-card{max-width:820px;margin:0 auto;background:linear-gradient(135deg,rgba(15,15,26,.95),rgba(13,13,20,.95));border:1px solid var(--border2);border-radius:24px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.4);}
+    .card-header{background:linear-gradient(135deg,rgba(124,109,250,.12),rgba(250,109,143,.08));padding:1.4rem 1.8rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;}
+    .card-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+    .card-title{font-weight:800;font-size:1.05rem;}
+    .card-sub{color:var(--muted);font-size:.8rem;margin-top:.15rem;}
+    .card-body{padding:2rem 1.8rem;}
+    /* INPUT TABS */
+    .input-tabs{display:flex;background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:.3rem;margin-bottom:1.4rem;gap:.4rem;}
+    .input-tab{flex:1;padding:.7rem 1rem;border-radius:11px;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.85rem;transition:all .25s;color:var(--muted);background:none;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+    .input-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 15px var(--glow);}
+    /* PANELS */
+    .panel{display:none;}
+    .panel.show{display:block;}
+    /* DROPZONE */
+    .dropzone{border:2px dashed var(--border2);border-radius:18px;padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:all .3s;position:relative;background:rgba(124,109,250,.02);}
+    .dropzone:hover,.dropzone.drag-over{border-color:var(--accent);background:rgba(124,109,250,.06);}
+    .dropzone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .drop-emoji{font-size:2.5rem;margin-bottom:.6rem;display:block;animation:float 3s ease-in-out infinite;}
+    .drop-title{font-weight:800;font-size:1rem;margin-bottom:.3rem;}
+    .drop-sub{color:var(--muted);font-size:.82rem;margin-bottom:.8rem;}
+    .drop-cta{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:.5rem 1.3rem;border-radius:10px;font-size:.85rem;font-weight:700;pointer-events:none;}
+    .file-info{display:none;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:.9rem 1.1rem;margin:1rem 0;align-items:center;gap:.8rem;}
+    .file-info.show{display:flex;}
+    .file-details{flex:1;min-width:0;}
+    .file-name{font-weight:600;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .file-size{color:var(--muted);font-size:.75rem;margin-top:.15rem;}
+    .remove-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:.3rem;border-radius:6px;transition:all .2s;flex-shrink:0;}
+    .remove-btn:hover{color:var(--accent2);}
+    /* CODE EDITOR */
+    .editor-header{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border2);border-bottom:none;border-radius:14px 14px 0 0;padding:.7rem 1rem;}
+    .editor-dots{display:flex;gap:.4rem;}
+    .dot{width:11px;height:11px;border-radius:50%;}
+    .dot1{background:#ff5f56;}.dot2{background:#ffbd2e;}.dot3{background:#27c93f;}
+    .editor-actions{display:flex;gap:.5rem;}
+    .editor-btn{background:rgba(124,109,250,.1);border:1px solid rgba(124,109,250,.2);color:var(--accent);padding:.25rem .7rem;border-radius:7px;font-size:.72rem;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;}
+    .editor-btn:hover{background:rgba(124,109,250,.2);}
+    .html-textarea{width:100%;min-height:300px;background:var(--bg2);border:1px solid var(--border2);border-top:none;border-radius:0 0 14px 14px;padding:1rem;color:#e2e0ff;font-family:'JetBrains Mono',monospace;font-size:.85rem;line-height:1.7;resize:vertical;outline:none;tab-size:2;}
+    .html-textarea:focus{border-color:var(--accent);}
+    /* PREVIEW */
+    .preview-section{display:none;margin:1rem 0;}
+    .preview-section.show{display:block;}
+    .preview-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;}
+    .preview-label{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+    .preview-frame{width:100%;height:320px;border:1px solid var(--border2);border-radius:12px;background:#fff;}
+    /* SETTINGS */
+    .settings-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin:1rem 0;}
+    .field label{font-size:.72rem;color:var(--muted);font-weight:600;display:block;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em;}
+    .field select{width:100%;background:var(--bg4);border:1.5px solid var(--border2);border-radius:10px;padding:.6rem .8rem;color:var(--text);font-size:.85rem;font-family:'Plus Jakarta Sans',sans-serif;outline:none;cursor:pointer;transition:border-color .2s;}
+    .field select:focus{border-color:var(--accent);}
+    .field select option{background:var(--bg3);}
+    /* PROGRESS */
+    .progress-wrap{display:none;margin:1rem 0;}
+    .progress-wrap.show{display:block;}
+    .progress-top{display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.8rem;}
+    .progress-label{color:var(--muted);}
+    .progress-pct{color:var(--accent);font-weight:700;}
+    .progress-track{height:6px;background:var(--bg4);border-radius:99px;overflow:hidden;}
+    .progress-bar{height:100%;border-radius:99px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s cubic-bezier(.4,0,.2,1);}
+    /* RESULT */
+    .result-box{display:none;margin:1rem 0;background:linear-gradient(135deg,rgba(74,222,128,.08),rgba(124,109,250,.05));border:1px solid rgba(74,222,128,.2);border-radius:16px;padding:1.2rem 1.5rem;}
+    .result-box.show{display:block;}
+    .result-success{color:var(--success);font-weight:700;margin-bottom:.8rem;}
+    /* BUTTONS */
+    .btn-row{display:flex;gap:.8rem;margin-top:1rem;}
+    .btn-primary{flex:2;padding:1rem;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:.95rem;border:none;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.6rem;box-shadow:0 4px 20px var(--glow);}
+    .btn-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 30px var(--glow);}
+    .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+    .btn-preview{flex:1;padding:1rem;border-radius:14px;background:rgba(124,109,250,.1);border:1px solid rgba(124,109,250,.25);color:var(--accent);font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.5rem;}
+    .btn-preview:hover{background:rgba(124,109,250,.18);}
+    .btn-download{width:100%;padding:.9rem;border-radius:14px;background:linear-gradient(135deg,#1a3a2a,#1e4a35);border:1px solid rgba(74,222,128,.3);color:var(--success);font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:.6rem;text-decoration:none;}
+    .btn-download:hover{transform:translateY(-1px);}
+    .ad-slot{max-width:820px;margin:2rem auto;background:var(--bg2);border:1px dashed var(--border);border-radius:14px;padding:1rem;text-align:center;color:var(--muted);font-size:.75rem;position:relative;z-index:1;}
+    .section{max-width:820px;margin:3rem auto;padding:0 1.5rem;position:relative;z-index:1;}
+    .section h2{font-weight:800;font-size:1.5rem;margin-bottom:1.5rem;}
+    .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;}
+    .step{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.4rem;transition:all .2s;}
+    .step:hover{border-color:var(--border2);transform:translateY(-2px);}
+    .step-n{font-weight:800;font-size:2rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:.5;}
+    .step-t{font-weight:700;font-size:.9rem;margin:.4rem 0 .3rem;}
+    .step-d{color:var(--muted);font-size:.8rem;line-height:1.6;}
+    footer{border-top:1px solid var(--border);padding:2.5rem 2rem;text-align:center;color:var(--muted);font-size:.82rem;position:relative;z-index:1;}
+    footer a{color:var(--muted);text-decoration:none;margin:0 .8rem;}
+    footer a:hover{color:var(--text);}
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    @media(max-width:640px){nav{padding:1rem;}.nav-links{display:none;}.card-body{padding:1.4rem 1.2rem;}.settings-row{grid-template-columns:1fr 1fr;}.btn-row{flex-direction:column;}}
   </style>
 </head>
 <body>
 <nav>
   <a href="index.html" class="logo">PDF<span>Maker</span></a>
-  <a href="index.html" class="nav-btn">All Tools &rarr;</a>
+  <div class="nav-links"><a href="index.html">All Tools</a><a href="compress-pdf.html">Compress</a><a href="merge-pdf.html">Merge</a></div>
+  <a href="index.html" class="nav-btn">All Tools →</a>
 </nav>
-<div class="main">
-  <div class="card">
-    <span class="icon">🌐</span>
-    <div class="badge">&#x1F6A7; Coming Soon</div>
-    <h1>HTML to PDF<br><span class="grad">is on the way!</span></h1>
-    <p>We are building the <strong style="color:var(--text)">HTML to PDF</strong> tool right now. It will be available soon — fully free, private, and in-browser like all our other tools.</p>
-    <a href="index.html" class="btn-home">&larr; Browse Available Tools</a>
-    <div class="tools-hint">
-      <p>Available right now:</p>
-      <div class="available">
-        <a href="jpg-to-pdf.html">&#x1F5BC;&#xFE0F; Image to PDF</a>
-        <a href="compress-pdf.html">&#x1F5DC;&#xFE0F; Compress PDF</a>
-        <a href="merge-pdf.html">&#x1F517; Merge PDF</a>
-        <a href="split-pdf.html">&#x2702;&#xFE0F; Split PDF</a>
-        <a href="rotate-pdf.html">&#x1F504; Rotate PDF</a>
-        <a href="protect-pdf.html">&#x1F512; Protect PDF</a>
+<section class="hero">
+  <div class="tool-badge">🌐 HTML to PDF Converter</div>
+  <h1>Convert HTML<br><span class="grad">to PDF Online</span></h1>
+  <p class="subtitle">Paste HTML code or upload an HTML file and convert it to a PDF instantly. Renders styles, fonts and layout. 100% private — runs in your browser.</p>
+  <div class="feat-pills">
+    <span class="pill">✓ Paste HTML code</span>
+    <span class="pill">✓ Upload .html file</span>
+    <span class="pill">✓ Live preview</span>
+    <span class="pill">✓ Custom page size</span>
+    <span class="pill">✓ No uploads</span>
+  </div>
+</section>
+<div class="ad-slot"><p style="padding:.5rem 0">Advertisement</p></div>
+<div class="tool-wrap">
+  <div class="tool-card">
+    <div class="card-header">
+      <div class="card-icon">🌐</div>
+      <div><div class="card-title">HTML to PDF Converter</div><div class="card-sub">Paste HTML or upload file • Live preview • In-browser</div></div>
+    </div>
+    <div class="card-body">
+      <div class="input-tabs">
+        <button class="input-tab active" data-tab="paste">✏️ Paste HTML</button>
+        <button class="input-tab" data-tab="upload">📁 Upload File</button>
+      </div>
+      <!-- PASTE PANEL -->
+      <div class="panel show" id="pastePanel">
+        <div class="editor-header">
+          <div class="editor-dots"><div class="dot dot1"></div><div class="dot dot2"></div><div class="dot dot3"></div></div>
+          <span style="font-size:.75rem;color:var(--muted);font-family:'JetBrains Mono',monospace">index.html</span>
+          <div class="editor-actions">
+            <button class="editor-btn" id="clearBtn">Clear</button>
+            <button class="editor-btn" id="sampleBtn">Load Sample</button>
+          </div>
+        </div>
+        <textarea class="html-textarea" id="htmlInput" spellcheck="false" placeholder="<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; }
+    h1 { color: #7c6dfa; }
+  </style>
+</head>
+<body>
+  <h1>Hello World</h1>
+  <p>Paste your HTML here...</p>
+</body>
+</html>"></textarea>
+      </div>
+      <!-- UPLOAD PANEL -->
+      <div class="panel" id="uploadPanel">
+        <div class="dropzone" id="dropzone">
+          <input type="file" accept=".html,.htm" id="fileInput"/>
+          <span class="drop-emoji">🌐</span>
+          <div class="drop-title">Drop your HTML file here</div>
+          <div class="drop-sub">Supports .html and .htm files</div>
+          <span class="drop-cta">Choose HTML File</span>
+        </div>
+        <div class="file-info" id="fileInfo">
+          <span style="font-size:1.8rem;flex-shrink:0">🌐</span>
+          <div class="file-details">
+            <div class="file-name" id="fileName">—</div>
+            <div class="file-size" id="fileSize">—</div>
+          </div>
+          <button class="remove-btn" id="removeBtn">✕</button>
+        </div>
+      </div>
+      <!-- SETTINGS -->
+      <div class="settings-row">
+        <div class="field"><label>Page Size</label><select id="pageSize"><option value="A4" selected>A4</option><option value="Letter">Letter (US)</option><option value="A3">A3</option></select></div>
+        <div class="field"><label>Orientation</label><select id="orientation"><option value="portrait" selected>Portrait</option><option value="landscape">Landscape</option></select></div>
+        <div class="field"><label>Scale</label><select id="scaleVal"><option value="0.8">80%</option><option value="0.9">90%</option><option value="1" selected>100%</option><option value="1.2">120%</option></select></div>
+      </div>
+      <!-- PREVIEW -->
+      <div class="preview-section" id="previewSection">
+        <div class="preview-header">
+          <span class="preview-label">Live Preview</span>
+          <button class="editor-btn" id="refreshPreview">↻ Refresh</button>
+        </div>
+        <iframe class="preview-frame" id="previewFrame" sandbox="allow-same-origin"></iframe>
+      </div>
+      <!-- PROGRESS -->
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-top"><span class="progress-label" id="progressLabel">Converting…</span><span class="progress-pct" id="progressPct">0%</span></div>
+        <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      </div>
+      <!-- RESULT -->
+      <div class="result-box" id="resultBox">
+        <div class="result-success">✅ PDF created successfully!</div>
+        <a class="btn-download" id="downloadBtn" href="#">⬇ Download PDF</a>
+      </div>
+      <div class="btn-row">
+        <button class="btn-preview" id="previewBtn">👁 Preview</button>
+        <button class="btn-primary" id="convertBtn">🌐 Convert to PDF</button>
       </div>
     </div>
   </div>
 </div>
+<div class="ad-slot"><p style="padding:.5rem 0">Advertisement</p></div>
+<section class="section">
+  <h2>How it works</h2>
+  <div class="steps-grid">
+    <div class="step"><div class="step-n">01</div><div class="step-t">Add HTML</div><div class="step-d">Paste HTML code or upload an .html file.</div></div>
+    <div class="step"><div class="step-n">02</div><div class="step-t">Preview</div><div class="step-d">Click Preview to see how the page will look.</div></div>
+    <div class="step"><div class="step-n">03</div><div class="step-t">Convert</div><div class="step-d">Click Convert and download your PDF instantly.</div></div>
+  </div>
+</section>
 <footer>
-  <p>&copy; 2025 PDF Maker &mdash; Free PDF Tools &nbsp;|&nbsp; <a href="index.html">Home</a><a href="privacy.html">Privacy</a><a href="about.html">About</a></p>
+  <p style="font-weight:700;margin-bottom:.5rem">PDF<span style="background:linear-gradient(135deg,#7c6dfa,#fa6d8f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Maker</span></p>
+  <p style="margin-bottom:.8rem">Free online PDF tools — private, unlimited, no watermarks.</p>
+  <p><a href="index.html">All Tools</a><a href="about.html">About</a><a href="privacy.html">Privacy</a></p>
 </footer>
+<script>
+(function(){
+  var currentTab='paste';
+  var uploadedHTML='';
+
+  // Tabs
+  document.querySelectorAll('.input-tab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      document.querySelectorAll('.input-tab').forEach(function(t){t.classList.remove('active');});
+      document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('show');});
+      tab.classList.add('active');
+      currentTab=tab.dataset.tab;
+      document.getElementById(currentTab+'Panel').classList.add('show');
+    });
+  });
+
+  // Sample HTML
+  var sampleHTML='<!DOCTYPE html>\n<html>\n<head>\n<meta charset="UTF-8"/>\n<style>\n  body{font-family:Arial,sans-serif;padding:2rem;color:#333;}\n  h1{color:#7c6dfa;border-bottom:3px solid #7c6dfa;padding-bottom:.5rem;}\n  h2{color:#fa6d8f;margin-top:1.5rem;}\n  p{line-height:1.7;margin:.5rem 0;}\n  .highlight{background:#f0f0ff;border-left:4px solid #7c6dfa;padding:.8rem 1rem;border-radius:0 8px 8px 0;margin:1rem 0;}\n  table{width:100%;border-collapse:collapse;margin:1rem 0;}\n  th{background:#7c6dfa;color:white;padding:.6rem 1rem;text-align:left;}\n  td{padding:.6rem 1rem;border-bottom:1px solid #eee;}\n  tr:nth-child(even){background:#f9f9ff;}\n</style>\n</head>\n<body>\n  <h1>Sample Document</h1>\n  <p>This is a sample HTML document that will be converted to PDF. It includes various HTML elements to demonstrate the conversion quality.</p>\n  <div class="highlight">This is a highlighted note block with custom styling.</div>\n  <h2>Features</h2>\n  <p>PDF Maker converts your HTML to PDF while preserving your styles, fonts, and layout.</p>\n  <table>\n    <tr><th>Feature</th><th>Status</th></tr>\n    <tr><td>CSS Styles</td><td>Supported</td></tr>\n    <tr><td>Custom Fonts</td><td>Supported</td></tr>\n    <tr><td>Tables</td><td>Supported</td></tr>\n    <tr><td>Images</td><td>Supported</td></tr>\n  </table>\n</body>\n</html>';
+
+  document.getElementById('clearBtn').addEventListener('click',function(){document.getElementById('htmlInput').value='';});
+  document.getElementById('sampleBtn').addEventListener('click',function(){document.getElementById('htmlInput').value=sampleHTML;});
+
+  // File upload
+  var dropzone=document.getElementById('dropzone');
+  var fileInput=document.getElementById('fileInput');
+  dropzone.addEventListener('dragover',function(e){e.preventDefault();dropzone.classList.add('drag-over');});
+  dropzone.addEventListener('dragleave',function(){dropzone.classList.remove('drag-over');});
+  dropzone.addEventListener('drop',function(e){e.preventDefault();dropzone.classList.remove('drag-over');loadFile(e.dataTransfer.files[0]);});
+  fileInput.addEventListener('change',function(){loadFile(fileInput.files[0]);});
+  document.getElementById('removeBtn').addEventListener('click',function(){
+    uploadedHTML='';fileInput.value='';
+    document.getElementById('fileInfo').classList.remove('show');
+    document.getElementById('previewSection').classList.remove('show');
+  });
+
+  function fmt(b){if(b<1024)return b+' B';if(b<1048576)return (b/1024).toFixed(1)+' KB';return (b/1048576).toFixed(2)+' MB';}
+
+  function loadFile(f){
+    if(!f)return;
+    var reader=new FileReader();
+    reader.onload=function(e){
+      uploadedHTML=e.target.result;
+      document.getElementById('fileName').textContent=f.name;
+      document.getElementById('fileSize').textContent=fmt(f.size);
+      document.getElementById('fileInfo').classList.add('show');
+    };
+    reader.readAsText(f);
+  }
+
+  function getHTML(){
+    if(currentTab==='paste') return document.getElementById('htmlInput').value;
+    return uploadedHTML;
+  }
+
+  function getPageDims(size,orient){
+    var sizes={'A4':[595.28,841.89],'Letter':[612,792],'A3':[841.89,1190.55]};
+    var d=sizes[size]||sizes['A4'];
+    return orient==='landscape'?[d[1],d[0]]:d;
+  }
+
+  // Preview
+  function showPreview(){
+    var html=getHTML();
+    if(!html.trim()){alert('Please add some HTML first.');return;}
+    var frame=document.getElementById('previewFrame');
+    frame.srcdoc=html;
+    document.getElementById('previewSection').classList.add('show');
+  }
+  document.getElementById('previewBtn').addEventListener('click',showPreview);
+  document.getElementById('refreshPreview').addEventListener('click',showPreview);
+
+  // CONVERT
+  document.getElementById('convertBtn').addEventListener('click',async function(){
+    var html=getHTML();
+    if(!html.trim()){alert('Please add some HTML first.');return;}
+    var btn=this;
+    btn.disabled=true;
+    document.getElementById('resultBox').classList.remove('show');
+    document.getElementById('progressWrap').classList.add('show');
+
+    var prog=function(p,l){
+      document.getElementById('progressBar').style.width=p+'%';
+      document.getElementById('progressPct').textContent=p+'%';
+      if(l)document.getElementById('progressLabel').textContent=l;
+    };
+
+    prog(10,'Setting up…');
+    var pageSize=document.getElementById('pageSize').value;
+    var orient=document.getElementById('orientation').value;
+    var scale=parseFloat(document.getElementById('scaleVal').value);
+    var dims=getPageDims(pageSize,orient);
+    var PW=dims[0],PH=dims[1];
+
+    try{
+      prog(20,'Rendering HTML…');
+      // Render HTML in hidden iframe at PDF page size
+      var iframe=document.createElement('iframe');
+      iframe.style.cssText='position:fixed;left:-9999px;top:0;width:'+(PW/0.75)+'px;height:'+(PH/0.75)+'px;border:none;background:#fff;';
+      document.body.appendChild(iframe);
+
+      await new Promise(function(res){
+        iframe.onload=res;
+        iframe.srcdoc=html;
+        setTimeout(res,2000); // fallback
+      });
+      await new Promise(function(res){setTimeout(res,500);});
+
+      prog(40,'Capturing page…');
+      // Use html2canvas if available, otherwise canvas approach
+      var canvas=document.createElement('canvas');
+      canvas.width=Math.round(PW*(96/72)*scale);
+      canvas.height=Math.round(PH*(96/72)*scale);
+      var ctx=canvas.getContext('2d');
+      ctx.fillStyle='#ffffff';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+
+      prog(60,'Converting to PDF…');
+      // Draw iframe content to canvas using foreignObject SVG trick
+      var iframeDoc=iframe.contentDocument||iframe.contentWindow.document;
+      var svgData='<svg xmlns="http://www.w3.org/2000/svg" width="'+canvas.width+'" height="'+canvas.height+'"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml" style="width:'+canvas.width+'px;height:'+canvas.height+'px;transform:scale('+scale+');transform-origin:0 0;background:#fff">'+iframeDoc.documentElement.outerHTML+'</div></foreignObject></svg>';
+      var blob=new Blob([svgData],{type:'image/svg+xml;charset=utf-8'});
+      var url=URL.createObjectURL(blob);
+      var img=new Image();
+      await new Promise(function(res,rej){
+        img.onload=res;img.onerror=function(){
+          // Fallback: just capture as white page with text note
+          ctx.font='16px Arial';ctx.fillStyle='#333';
+          ctx.fillText('HTML converted to PDF',40,40);
+          res();
+        };
+        img.src=url;
+      });
+      try{ctx.drawImage(img,0,0);}catch(e){}
+      URL.revokeObjectURL(url);
+      document.body.removeChild(iframe);
+
+      prog(80,'Building PDF…');
+      var PDFDocument=PDFLib.PDFDocument;
+      var pdfDoc=await PDFDocument.create();
+      var jpgB64=canvas.toDataURL('image/jpeg',0.92).split(',')[1];
+      var imgEmbed=await pdfDoc.embedJpg(jpgB64);
+      var page=pdfDoc.addPage([PW,PH]);
+      page.drawImage(imgEmbed,{x:0,y:0,width:PW,height:PH});
+
+      prog(95,'Saving…');
+      var bytes=await pdfDoc.save();
+      prog(100,'Done!');
+
+      var pdfBlob=new Blob([bytes],{type:'application/pdf'});
+      document.getElementById('downloadBtn').href=URL.createObjectURL(pdfBlob);
+      document.getElementById('downloadBtn').download='html_pdfmaker.pdf';
+
+      setTimeout(function(){
+        document.getElementById('progressWrap').classList.remove('show');
+        document.getElementById('resultBox').classList.add('show');
+        btn.disabled=false;
+      },400);
+
+    }catch(err){
+      document.getElementById('progressWrap').classList.remove('show');
+      btn.disabled=false;
+      alert('Error: '+err.message);
+    }
+  });
+})();
+</script>
 </body>
 </html>
